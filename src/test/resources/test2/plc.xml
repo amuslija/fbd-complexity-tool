@@ -1,753 +1,755 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://www.plcopen.org/xml/tc6.xsd" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <fileHeader companyName="Bombardier Transportation" companyURL="www.kw-software.com" productName="1131-TOOL" productVersion="3.1.0.1" creationDateTime="2014-05-22T08:06:31" contentDescription="" />
-  <contentHeader name="LTAB4" version="1400738791" modificationDateTime="2014-05-22T08:06:31">
-    <coordinateInfo>
-      <pageSize x="999" y="400" />
-      <fbd>
-        <scaling x="2" y="2" />
-      </fbd>
-      <ld>
-        <scaling x="2" y="2" />
-      </ld>
-      <sfc>
-        <scaling x="2" y="2" />
-      </sfc>
-    </coordinateInfo>
-  </contentHeader>
-  <types>
-    <dataTypes />
-    <pous>
-      <pou name="DBC_PV_MtFanCtrl" pouType="functionBlock">
-        <interface>
-          <inputVars retain="false">
-            <variable name="DBC_PV_X_ColStep" comment="1-8 cooling step">
-              <type>
-                <INT />
-              </type>
-            </variable>
-          </inputVars>
-          <outputVars retain="false">
-            <variable name="DBC_PV_C_Fan1Lo">
-              <type>
-                <BOOL />
-              </type>
-            </variable>
-            <variable name="DBC_PV_C_Fan1Hi">
-              <type>
-                <BOOL />
-              </type>
-            </variable>
-            <variable name="DBC_PV_C_Fan2Lo">
-              <type>
-                <BOOL />
-              </type>
-            </variable>
-            <variable name="DBC_PV_C_Fan2Hi">
-              <type>
-                <BOOL />
-              </type>
-            </variable>
-            <variable name="DBC_PV_C_Fan3Lo">
-              <type>
-                <BOOL />
-              </type>
-            </variable>
-            <variable name="DBC_PV_C_Fan3Hi">
-              <type>
-                <BOOL />
-              </type>
-            </variable>
-          </outputVars>
-          <localVars retain="false">
-            <variable name="Enable">
-              <type>
-                <BOOL />
-              </type>
-              <initialValue>
-                <simpleValue value="TRUE" />
-              </initialValue>
-            </variable>
-            <variable name="P_Fan1Lo_1" comment="Fan1 low speed, 1=1">
-              <type>
-                <INT />
-              </type>
-              <initialValue>
-                <simpleValue value="3" />
-              </initialValue>
-            </variable>
-            <variable name="P_Fan1Lo_2" comment="Fan1 low speed, 1=1">
-              <type>
-                <INT />
-              </type>
-              <initialValue>
-                <simpleValue value="7" />
-              </initialValue>
-            </variable>
-            <variable name="P_Fan1Hi" comment="Fan1high speed, 1=1">
-              <type>
-                <INT />
-              </type>
-              <initialValue>
-                <simpleValue value="8" />
-              </initialValue>
-            </variable>
-            <variable name="P_Fan2Lo_1" comment="Fan2 low speed, 1=1">
-              <type>
-                <INT />
-              </type>
-              <initialValue>
-                <simpleValue value="4" />
-              </initialValue>
-            </variable>
-            <variable name="P_Fan2Lo_2" comment="Fan2 low speed, 1=1">
-              <type>
-                <INT />
-              </type>
-              <initialValue>
-                <simpleValue value="6" />
-              </initialValue>
-            </variable>
-            <variable name="P_Fan2Hi_1" comment="Fan2 high speed, 1=1">
-              <type>
-                <INT />
-              </type>
-              <initialValue>
-                <simpleValue value="7" />
-              </initialValue>
-            </variable>
-            <variable name="P_Fan2Hi_2" comment="Fan2 high speed, 1=1">
-              <type>
-                <INT />
-              </type>
-              <initialValue>
-                <simpleValue value="8" />
-              </initialValue>
-            </variable>
-            <variable name="P_Fan3Lo" comment="Fan3 low speed, 1=1">
-              <type>
-                <INT />
-              </type>
-              <initialValue>
-                <simpleValue value="5" />
-              </initialValue>
-            </variable>
-            <variable name="P_Fan3Hi_1" comment="Fan3 high speed, 1=1">
-              <type>
-                <INT />
-              </type>
-              <initialValue>
-                <simpleValue value="6" />
-              </initialValue>
-            </variable>
-            <variable name="P_Fan3Hi_2" comment="Fan3 high speed, 1=1">
-              <type>
-                <INT />
-              </type>
-              <initialValue>
-                <simpleValue value="8" />
-              </initialValue>
-            </variable>
-          </localVars>
-        </interface>
-        <body>
-          <FBD>
-            <inVariable localId="22" width="8" height="2">
-              <position x="4" y="5" />
-              <variable>Enable</variable>
-            </inVariable>
-            <return localId="23" width="12" height="2">
-              <position x="24" y="5" />
-              <connection refLocalId="102" formalParameter="NOT" />
-            </return>
-            <outVariable localId="24" width="19" height="2">
-              <position x="108" y="14" />
-              <connection refLocalId="105" formalParameter="OUT" />
-              <variable>DBC_PV_C_Fan1Lo</variable>
-            </outVariable>
-            <inVariable localId="25" width="19" height="2">
-              <position x="44" y="14" />
-              <variable>DBC_PV_X_ColStep</variable>
-            </inVariable>
-            <inVariable localId="26" width="13" height="2">
-              <position x="71" y="18" />
-              <variable>P_Fan1Lo_1</variable>
-            </inVariable>
-            <inVariable localId="27" width="13" height="2">
-              <position x="71" y="32" />
-              <variable>P_Fan1Lo_2</variable>
-            </inVariable>
-            <outVariable localId="28" width="18" height="2">
-              <position x="108" y="42" />
-              <connection refLocalId="106" formalParameter="EQ">
-                <position x="108" y="43" />
-                <position x="96" y="43" />
-              </connection>
-              <variable>DBC_PV_C_Fan1Hi</variable>
-            </outVariable>
-            <inVariable localId="29" width="11" height="2">
-              <position x="73" y="46" />
-              <variable>P_Fan1Hi</variable>
-            </inVariable>
-            <comment localId="30" width="17" height="3">
-              <position x="4" y="14" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Cooling step, 1-8</p>
-                </html>
-              </content>
-            </comment>
-            <comment localId="31" width="17" height="3">
-              <position x="142" y="14" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Fan 1 low speed</p>
-                </html>
-              </content>
-            </comment>
-            <comment localId="32" width="17" height="3">
-              <position x="142" y="42" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Fan 1 high speed</p>
-                </html>
-              </content>
-            </comment>
-            <comment localId="33" width="28" height="4">
-              <position x="82" y="7" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:200px; height:300px">Fan 1 speed control</p>
-                </html>
-              </content>
-            </comment>
-            <comment localId="34" width="31" height="3">
-              <position x="110" y="19" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">REQ 004, 005, 006, 007, 019, 020</p>
-                </html>
-              </content>
-            </comment>
-            <comment localId="35" width="31" height="3">
-              <position x="110" y="47" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">REQ 004, 005, 006, 007, 019, 020</p>
-                </html>
-              </content>
-            </comment>
-            <outVariable localId="36" width="19" height="2">
-              <position x="108" y="61" />
-              <connection refLocalId="109" formalParameter="OUT" />
-              <variable>DBC_PV_C_Fan2Lo</variable>
-            </outVariable>
-            <inVariable localId="37" width="13" height="2">
-              <position x="71" y="65" />
-              <variable>P_Fan2Lo_1</variable>
-            </inVariable>
-            <inVariable localId="38" width="13" height="2">
-              <position x="71" y="79" />
-              <variable>P_Fan2Lo_2</variable>
-            </inVariable>
-            <outVariable localId="39" width="18" height="2">
-              <position x="108" y="89" />
-              <connection refLocalId="112" formalParameter="OUT" />
-              <variable>DBC_PV_C_Fan2Hi</variable>
-            </outVariable>
-            <inVariable localId="40" width="13" height="2">
-              <position x="71" y="93" />
-              <variable>P_Fan2Hi_1</variable>
-            </inVariable>
-            <comment localId="41" width="17" height="3">
-              <position x="142" y="61" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Fan 2 low speed</p>
-                </html>
-              </content>
-            </comment>
-            <comment localId="42" width="17" height="3">
-              <position x="142" y="89" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Fan 2 high speed</p>
-                </html>
-              </content>
-            </comment>
-            <comment localId="43" width="28" height="4">
-              <position x="82" y="54" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:200px; height:300px">Fan 2 speed control</p>
-                </html>
-              </content>
-            </comment>
-            <comment localId="44" width="31" height="3">
-              <position x="110" y="66" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">REQ 004, 005, 006, 007, 019, 020</p>
-                </html>
-              </content>
-            </comment>
-            <comment localId="45" width="31" height="3">
-              <position x="110" y="94" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">REQ 004, 005, 006, 007, 019, 020</p>
-                </html>
-              </content>
-            </comment>
-            <inVariable localId="46" width="13" height="2">
-              <position x="71" y="107" />
-              <variable>P_Fan2Hi_2</variable>
-            </inVariable>
-            <outVariable localId="47" width="19" height="2">
-              <position x="108" y="122" />
-              <connection refLocalId="113" formalParameter="EQ">
-                <position x="108" y="123" />
-                <position x="96" y="123" />
-              </connection>
-              <variable>DBC_PV_C_Fan3Lo</variable>
-            </outVariable>
-            <inVariable localId="48" width="11" height="2">
-              <position x="73" y="126" />
-              <variable>P_Fan3Lo</variable>
-            </inVariable>
-            <comment localId="49" width="17" height="3">
-              <position x="142" y="122" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Fan 3 low speed</p>
-                </html>
-              </content>
-            </comment>
-            <comment localId="50" width="31" height="3">
-              <position x="110" y="127" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">REQ 004, 005, 006, 007, 019, 020</p>
-                </html>
-              </content>
-            </comment>
-            <comment localId="51" width="28" height="4">
-              <position x="82" y="114" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:200px; height:300px">Fan 3 speed control</p>
-                </html>
-              </content>
-            </comment>
-            <outVariable localId="52" width="18" height="2">
-              <position x="108" y="136" />
-              <connection refLocalId="116" formalParameter="OUT" />
-              <variable>DBC_PV_C_Fan3Hi</variable>
-            </outVariable>
-            <inVariable localId="53" width="13" height="2">
-              <position x="71" y="140" />
-              <variable>P_Fan3Hi_1</variable>
-            </inVariable>
-            <comment localId="54" width="17" height="3">
-              <position x="142" y="136" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Fan 3 high speed</p>
-                </html>
-              </content>
-            </comment>
-            <comment localId="55" width="31" height="3">
-              <position x="110" y="141" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">REQ 004, 005, 006, 007, 019, 020</p>
-                </html>
-              </content>
-            </comment>
-            <inVariable localId="56" width="13" height="2">
-              <position x="71" y="154" />
-              <variable>P_Fan3Hi_2</variable>
-            </inVariable>
-            <comment localId="57" width="21" height="8">
-              <position x="232" y="149" />
-              <content>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                  <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:177px">Revision history:<br /><br />Date     Release    SCR      Sign   <br /></p>
-                </html>
-              </content>
-            </comment>
-            <block width="8" height="8" typeName="NOT" localId="102">
-              <position x="14" y="2" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="14" y="5" />
-                  <connection refLocalId="22" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="NOT" hidden="true">
-                  <position x="21" y="5" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="12" typeName="LE" localId="103">
-              <position x="86" y="25" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="86" y="28" />
-                  <connection refLocalId="25">
-                    <position x="84" y="29" />
-                    <position x="65" y="29" />
-                    <position x="65" y="15" />
-                    <position x="63" y="15" />
-                  </connection>
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="86" y="32" />
-                  <connection refLocalId="27" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="LE" hidden="true">
-                  <position x="93" y="28" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="12" typeName="GE" localId="104">
-              <position x="86" y="11" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="86" y="14" />
-                  <connection refLocalId="25">
-                    <position x="84" y="15" />
-                    <position x="65" y="15" />
-                    <position x="63" y="15" />
-                  </connection>
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="86" y="18" />
-                  <connection refLocalId="26" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="GE" hidden="true">
-                  <position x="93" y="14" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="22" typeName="AND" localId="105">
-              <position x="98" y="11" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="98" y="14" />
-                  <connection refLocalId="104" formalParameter="GE" />
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="98" y="28" />
-                  <connection refLocalId="103" formalParameter="LE" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="OUT" hidden="true">
-                  <position x="105" y="14" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="12" typeName="EQ" localId="106">
-              <position x="86" y="39" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="86" y="42" />
-                  <connection refLocalId="25">
-                    <position x="84" y="43" />
-                    <position x="65" y="43" />
-                    <position x="65" y="29" />
-                    <position x="65" y="15" />
-                    <position x="63" y="15" />
-                  </connection>
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="86" y="46" />
-                  <connection refLocalId="29" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="EQ" hidden="true">
-                  <position x="93" y="42" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="12" typeName="LE" localId="107">
-              <position x="86" y="72" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="86" y="75" />
-                  <connection refLocalId="25">
-                    <position x="84" y="76" />
-                    <position x="65" y="76" />
-                    <position x="65" y="62" />
-                    <position x="65" y="43" />
-                    <position x="65" y="29" />
-                    <position x="65" y="15" />
-                    <position x="63" y="15" />
-                  </connection>
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="86" y="79" />
-                  <connection refLocalId="38" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="LE" hidden="true">
-                  <position x="93" y="75" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="12" typeName="GE" localId="108">
-              <position x="86" y="58" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="86" y="61" />
-                  <connection refLocalId="25">
-                    <position x="84" y="62" />
-                    <position x="65" y="62" />
-                    <position x="65" y="43" />
-                    <position x="65" y="29" />
-                    <position x="65" y="15" />
-                    <position x="63" y="15" />
-                  </connection>
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="86" y="65" />
-                  <connection refLocalId="37" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="GE" hidden="true">
-                  <position x="93" y="61" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="22" typeName="AND" localId="109">
-              <position x="98" y="58" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="98" y="61" />
-                  <connection refLocalId="108" formalParameter="GE" />
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="98" y="75" />
-                  <connection refLocalId="107" formalParameter="LE" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="OUT" hidden="true">
-                  <position x="105" y="61" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="12" typeName="LE" localId="110">
-              <position x="86" y="100" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="86" y="103" />
-                  <connection refLocalId="25">
-                    <position x="84" y="104" />
-                    <position x="65" y="104" />
-                    <position x="65" y="90" />
-                    <position x="65" y="76" />
-                    <position x="65" y="62" />
-                    <position x="65" y="43" />
-                    <position x="65" y="29" />
-                    <position x="65" y="15" />
-                    <position x="63" y="15" />
-                  </connection>
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="86" y="107" />
-                  <connection refLocalId="46" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="LE" hidden="true">
-                  <position x="93" y="103" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="12" typeName="GE" localId="111">
-              <position x="86" y="86" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="86" y="89" />
-                  <connection refLocalId="25">
-                    <position x="84" y="90" />
-                    <position x="65" y="90" />
-                    <position x="65" y="76" />
-                    <position x="65" y="62" />
-                    <position x="65" y="43" />
-                    <position x="65" y="29" />
-                    <position x="65" y="15" />
-                    <position x="63" y="15" />
-                  </connection>
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="86" y="93" />
-                  <connection refLocalId="40" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="GE" hidden="true">
-                  <position x="93" y="89" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="22" typeName="AND" localId="112">
-              <position x="98" y="86" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="98" y="89" />
-                  <connection refLocalId="111" formalParameter="GE" />
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="98" y="103" />
-                  <connection refLocalId="110" formalParameter="LE" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="OUT" hidden="true">
-                  <position x="105" y="89" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="12" typeName="EQ" localId="113">
-              <position x="86" y="119" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="86" y="122" />
-                  <connection refLocalId="25">
-                    <position x="84" y="123" />
-                    <position x="65" y="123" />
-                    <position x="65" y="104" />
-                    <position x="65" y="90" />
-                    <position x="65" y="76" />
-                    <position x="65" y="62" />
-                    <position x="65" y="43" />
-                    <position x="65" y="29" />
-                    <position x="65" y="15" />
-                    <position x="63" y="15" />
-                  </connection>
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="86" y="126" />
-                  <connection refLocalId="48" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="EQ" hidden="true">
-                  <position x="93" y="122" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="12" typeName="LE" localId="114">
-              <position x="86" y="147" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="86" y="150" />
-                  <connection refLocalId="25">
-                    <position x="84" y="151" />
-                    <position x="65" y="151" />
-                    <position x="65" y="137" />
-                    <position x="65" y="123" />
-                    <position x="65" y="104" />
-                    <position x="65" y="90" />
-                    <position x="65" y="76" />
-                    <position x="65" y="62" />
-                    <position x="65" y="43" />
-                    <position x="65" y="29" />
-                    <position x="65" y="15" />
-                    <position x="63" y="15" />
-                  </connection>
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="86" y="154" />
-                  <connection refLocalId="56" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="LE" hidden="true">
-                  <position x="93" y="150" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="12" typeName="GE" localId="115">
-              <position x="86" y="133" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="86" y="136" />
-                  <connection refLocalId="25">
-                    <position x="84" y="137" />
-                    <position x="65" y="137" />
-                    <position x="65" y="123" />
-                    <position x="65" y="104" />
-                    <position x="65" y="90" />
-                    <position x="65" y="76" />
-                    <position x="65" y="62" />
-                    <position x="65" y="43" />
-                    <position x="65" y="29" />
-                    <position x="65" y="15" />
-                    <position x="63" y="15" />
-                  </connection>
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="86" y="140" />
-                  <connection refLocalId="53" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="GE" hidden="true">
-                  <position x="93" y="136" />
-                </variable>
-              </outputVariables>
-            </block>
-            <block width="8" height="22" typeName="AND" localId="116">
-              <position x="98" y="133" />
-              <inputVariables>
-                <variable formalParameter="IN1" hidden="true">
-                  <position x="98" y="136" />
-                  <connection refLocalId="115" formalParameter="GE" />
-                </variable>
-                <variable formalParameter="IN2" hidden="true">
-                  <position x="98" y="150" />
-                  <connection refLocalId="114" formalParameter="LE" />
-                </variable>
-              </inputVariables>
-              <inOutVariables />
-              <outputVariables>
-                <variable formalParameter="OUT" hidden="true">
-                  <position x="105" y="136" />
-                </variable>
-              </outputVariables>
-            </block>
-          </FBD>
-        </body>
-      </pou>
-    </pous>
-  </types>
-  <instances>
-    <configurations />
-  </instances>
+<project xmlns="http://www.plcopen.org/xml/tc6.xsd"
+>
+    <fileHeader companyName="Bombardier Transportation" companyURL="www.kw-software.com" productName="1131-TOOL"
+                productVersion="3.1.0.1" creationDateTime="2014-05-22T08:06:31" contentDescription=""/>
+    <contentHeader name="LTAB4" version="1400738791" modificationDateTime="2014-05-22T08:06:31">
+        <coordinateInfo>
+            <pageSize x="999" y="400"/>
+            <fbd>
+                <scaling x="2" y="2"/>
+            </fbd>
+            <ld>
+                <scaling x="2" y="2"/>
+            </ld>
+            <sfc>
+                <scaling x="2" y="2"/>
+            </sfc>
+        </coordinateInfo>
+    </contentHeader>
+    <types>
+        <dataTypes/>
+        <pous>
+            <pou name="DBC_PV_MtFanCtrl" pouType="functionBlock">
+                <interface>
+                    <inputVars retain="false">
+                        <variable name="DBC_PV_X_ColStep" comment="1-8 cooling step">
+                            <type>
+                                <INT/>
+                            </type>
+                        </variable>
+                    </inputVars>
+                    <outputVars retain="false">
+                        <variable name="DBC_PV_C_Fan1Lo">
+                            <type>
+                                <BOOL/>
+                            </type>
+                        </variable>
+                        <variable name="DBC_PV_C_Fan1Hi">
+                            <type>
+                                <BOOL/>
+                            </type>
+                        </variable>
+                        <variable name="DBC_PV_C_Fan2Lo">
+                            <type>
+                                <BOOL/>
+                            </type>
+                        </variable>
+                        <variable name="DBC_PV_C_Fan2Hi">
+                            <type>
+                                <BOOL/>
+                            </type>
+                        </variable>
+                        <variable name="DBC_PV_C_Fan3Lo">
+                            <type>
+                                <BOOL/>
+                            </type>
+                        </variable>
+                        <variable name="DBC_PV_C_Fan3Hi">
+                            <type>
+                                <BOOL/>
+                            </type>
+                        </variable>
+                    </outputVars>
+                    <localVars retain="false">
+                        <variable name="Enable">
+                            <type>
+                                <BOOL/>
+                            </type>
+                            <initialValue>
+                                <simpleValue value="TRUE"/>
+                            </initialValue>
+                        </variable>
+                        <variable name="P_Fan1Lo_1" comment="Fan1 low speed, 1=1">
+                            <type>
+                                <INT/>
+                            </type>
+                            <initialValue>
+                                <simpleValue value="3"/>
+                            </initialValue>
+                        </variable>
+                        <variable name="P_Fan1Lo_2" comment="Fan1 low speed, 1=1">
+                            <type>
+                                <INT/>
+                            </type>
+                            <initialValue>
+                                <simpleValue value="7"/>
+                            </initialValue>
+                        </variable>
+                        <variable name="P_Fan1Hi" comment="Fan1high speed, 1=1">
+                            <type>
+                                <INT/>
+                            </type>
+                            <initialValue>
+                                <simpleValue value="8"/>
+                            </initialValue>
+                        </variable>
+                        <variable name="P_Fan2Lo_1" comment="Fan2 low speed, 1=1">
+                            <type>
+                                <INT/>
+                            </type>
+                            <initialValue>
+                                <simpleValue value="4"/>
+                            </initialValue>
+                        </variable>
+                        <variable name="P_Fan2Lo_2" comment="Fan2 low speed, 1=1">
+                            <type>
+                                <INT/>
+                            </type>
+                            <initialValue>
+                                <simpleValue value="6"/>
+                            </initialValue>
+                        </variable>
+                        <variable name="P_Fan2Hi_1" comment="Fan2 high speed, 1=1">
+                            <type>
+                                <INT/>
+                            </type>
+                            <initialValue>
+                                <simpleValue value="7"/>
+                            </initialValue>
+                        </variable>
+                        <variable name="P_Fan2Hi_2" comment="Fan2 high speed, 1=1">
+                            <type>
+                                <INT/>
+                            </type>
+                            <initialValue>
+                                <simpleValue value="8"/>
+                            </initialValue>
+                        </variable>
+                        <variable name="P_Fan3Lo" comment="Fan3 low speed, 1=1">
+                            <type>
+                                <INT/>
+                            </type>
+                            <initialValue>
+                                <simpleValue value="5"/>
+                            </initialValue>
+                        </variable>
+                        <variable name="P_Fan3Hi_1" comment="Fan3 high speed, 1=1">
+                            <type>
+                                <INT/>
+                            </type>
+                            <initialValue>
+                                <simpleValue value="6"/>
+                            </initialValue>
+                        </variable>
+                        <variable name="P_Fan3Hi_2" comment="Fan3 high speed, 1=1">
+                            <type>
+                                <INT/>
+                            </type>
+                            <initialValue>
+                                <simpleValue value="8"/>
+                            </initialValue>
+                        </variable>
+                    </localVars>
+                </interface>
+                <body>
+                    <FBD>
+                        <inVariable localId="22" width="8" height="2">
+                            <position x="4" y="5"/>
+                            <variable>Enable</variable>
+                        </inVariable>
+                        <return localId="23" width="12" height="2">
+                            <position x="24" y="5"/>
+                            <connection refLocalId="102" formalParameter="NOT"/>
+                        </return>
+                        <outVariable localId="24" width="19" height="2">
+                            <position x="108" y="14"/>
+                            <connection refLocalId="105" formalParameter="OUT"/>
+                            <variable>DBC_PV_C_Fan1Lo</variable>
+                        </outVariable>
+                        <inVariable localId="25" width="19" height="2">
+                            <position x="44" y="14"/>
+                            <variable>DBC_PV_X_ColStep</variable>
+                        </inVariable>
+                        <inVariable localId="26" width="13" height="2">
+                            <position x="71" y="18"/>
+                            <variable>P_Fan1Lo_1</variable>
+                        </inVariable>
+                        <inVariable localId="27" width="13" height="2">
+                            <position x="71" y="32"/>
+                            <variable>P_Fan1Lo_2</variable>
+                        </inVariable>
+                        <outVariable localId="28" width="18" height="2">
+                            <position x="108" y="42"/>
+                            <connection refLocalId="106" formalParameter="EQ">
+                                <position x="108" y="43"/>
+                                <position x="96" y="43"/>
+                            </connection>
+                            <variable>DBC_PV_C_Fan1Hi</variable>
+                        </outVariable>
+                        <inVariable localId="29" width="11" height="2">
+                            <position x="73" y="46"/>
+                            <variable>P_Fan1Hi</variable>
+                        </inVariable>
+                        <comment localId="30" width="17" height="3">
+                            <position x="4" y="14"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Cooling step, 1-8</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <comment localId="31" width="17" height="3">
+                            <position x="142" y="14"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Fan 1 low speed</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <comment localId="32" width="17" height="3">
+                            <position x="142" y="42"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Fan 1 high speed</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <comment localId="33" width="28" height="4">
+                            <position x="82" y="7"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:200px; height:300px">Fan 1 speed control</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <comment localId="34" width="31" height="3">
+                            <position x="110" y="19"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">REQ 004, 005, 006, 007, 019, 020</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <comment localId="35" width="31" height="3">
+                            <position x="110" y="47"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">REQ 004, 005, 006, 007, 019, 020</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <outVariable localId="36" width="19" height="2">
+                            <position x="108" y="61"/>
+                            <connection refLocalId="109" formalParameter="OUT"/>
+                            <variable>DBC_PV_C_Fan2Lo</variable>
+                        </outVariable>
+                        <inVariable localId="37" width="13" height="2">
+                            <position x="71" y="65"/>
+                            <variable>P_Fan2Lo_1</variable>
+                        </inVariable>
+                        <inVariable localId="38" width="13" height="2">
+                            <position x="71" y="79"/>
+                            <variable>P_Fan2Lo_2</variable>
+                        </inVariable>
+                        <outVariable localId="39" width="18" height="2">
+                            <position x="108" y="89"/>
+                            <connection refLocalId="112" formalParameter="OUT"/>
+                            <variable>DBC_PV_C_Fan2Hi</variable>
+                        </outVariable>
+                        <inVariable localId="40" width="13" height="2">
+                            <position x="71" y="93"/>
+                            <variable>P_Fan2Hi_1</variable>
+                        </inVariable>
+                        <comment localId="41" width="17" height="3">
+                            <position x="142" y="61"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Fan 2 low speed</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <comment localId="42" width="17" height="3">
+                            <position x="142" y="89"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Fan 2 high speed</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <comment localId="43" width="28" height="4">
+                            <position x="82" y="54"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:200px; height:300px">Fan 2 speed control</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <comment localId="44" width="31" height="3">
+                            <position x="110" y="66"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">REQ 004, 005, 006, 007, 019, 020</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <comment localId="45" width="31" height="3">
+                            <position x="110" y="94"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">REQ 004, 005, 006, 007, 019, 020</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <inVariable localId="46" width="13" height="2">
+                            <position x="71" y="107"/>
+                            <variable>P_Fan2Hi_2</variable>
+                        </inVariable>
+                        <outVariable localId="47" width="19" height="2">
+                            <position x="108" y="122"/>
+                            <connection refLocalId="113" formalParameter="EQ">
+                                <position x="108" y="123"/>
+                                <position x="96" y="123"/>
+                            </connection>
+                            <variable>DBC_PV_C_Fan3Lo</variable>
+                        </outVariable>
+                        <inVariable localId="48" width="11" height="2">
+                            <position x="73" y="126"/>
+                            <variable>P_Fan3Lo</variable>
+                        </inVariable>
+                        <comment localId="49" width="17" height="3">
+                            <position x="142" y="122"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Fan 3 low speed</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <comment localId="50" width="31" height="3">
+                            <position x="110" y="127"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">REQ 004, 005, 006, 007, 019, 020</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <comment localId="51" width="28" height="4">
+                            <position x="82" y="114"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:200px; height:300px">Fan 3 speed control</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <outVariable localId="52" width="18" height="2">
+                            <position x="108" y="136"/>
+                            <connection refLocalId="116" formalParameter="OUT"/>
+                            <variable>DBC_PV_C_Fan3Hi</variable>
+                        </outVariable>
+                        <inVariable localId="53" width="13" height="2">
+                            <position x="71" y="140"/>
+                            <variable>P_Fan3Hi_1</variable>
+                        </inVariable>
+                        <comment localId="54" width="17" height="3">
+                            <position x="142" y="136"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">Fan 3 high speed</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <comment localId="55" width="31" height="3">
+                            <position x="110" y="141"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:213px">REQ 004, 005, 006, 007, 019, 020</p>
+                                </html>
+                            </content>
+                        </comment>
+                        <inVariable localId="56" width="13" height="2">
+                            <position x="71" y="154"/>
+                            <variable>P_Fan3Hi_2</variable>
+                        </inVariable>
+                        <comment localId="57" width="21" height="8">
+                            <position x="232" y="149"/>
+                            <content>
+                                <html xmlns="http://www.w3.org/1999/xhtml">
+                                    <p xml:space="preserve" style="color:#000000;background:#FFFFFF;font-weight:normal;font-style:normal;normal;font-family:ARIAL;width:0px; height:177px">Revision history:<br /><br />Date     Release    SCR      Sign   <br /></p>
+                                </html>
+                            </content>
+                        </comment>
+                        <block width="8" height="8" typeName="NOT" localId="102">
+                            <position x="14" y="2"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="14" y="5"/>
+                                    <connection refLocalId="22"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="NOT" hidden="true">
+                                    <position x="21" y="5"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="12" typeName="LE" localId="103">
+                            <position x="86" y="25"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="86" y="28"/>
+                                    <connection refLocalId="25">
+                                        <position x="84" y="29"/>
+                                        <position x="65" y="29"/>
+                                        <position x="65" y="15"/>
+                                        <position x="63" y="15"/>
+                                    </connection>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="86" y="32"/>
+                                    <connection refLocalId="27"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="LE" hidden="true">
+                                    <position x="93" y="28"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="12" typeName="GE" localId="104">
+                            <position x="86" y="11"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="86" y="14"/>
+                                    <connection refLocalId="25">
+                                        <position x="84" y="15"/>
+                                        <position x="65" y="15"/>
+                                        <position x="63" y="15"/>
+                                    </connection>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="86" y="18"/>
+                                    <connection refLocalId="26"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="GE" hidden="true">
+                                    <position x="93" y="14"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="22" typeName="AND" localId="105">
+                            <position x="98" y="11"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="98" y="14"/>
+                                    <connection refLocalId="104" formalParameter="GE"/>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="98" y="28"/>
+                                    <connection refLocalId="103" formalParameter="LE"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="OUT" hidden="true">
+                                    <position x="105" y="14"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="12" typeName="EQ" localId="106">
+                            <position x="86" y="39"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="86" y="42"/>
+                                    <connection refLocalId="25">
+                                        <position x="84" y="43"/>
+                                        <position x="65" y="43"/>
+                                        <position x="65" y="29"/>
+                                        <position x="65" y="15"/>
+                                        <position x="63" y="15"/>
+                                    </connection>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="86" y="46"/>
+                                    <connection refLocalId="29"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="EQ" hidden="true">
+                                    <position x="93" y="42"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="12" typeName="LE" localId="107">
+                            <position x="86" y="72"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="86" y="75"/>
+                                    <connection refLocalId="25">
+                                        <position x="84" y="76"/>
+                                        <position x="65" y="76"/>
+                                        <position x="65" y="62"/>
+                                        <position x="65" y="43"/>
+                                        <position x="65" y="29"/>
+                                        <position x="65" y="15"/>
+                                        <position x="63" y="15"/>
+                                    </connection>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="86" y="79"/>
+                                    <connection refLocalId="38"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="LE" hidden="true">
+                                    <position x="93" y="75"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="12" typeName="GE" localId="108">
+                            <position x="86" y="58"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="86" y="61"/>
+                                    <connection refLocalId="25">
+                                        <position x="84" y="62"/>
+                                        <position x="65" y="62"/>
+                                        <position x="65" y="43"/>
+                                        <position x="65" y="29"/>
+                                        <position x="65" y="15"/>
+                                        <position x="63" y="15"/>
+                                    </connection>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="86" y="65"/>
+                                    <connection refLocalId="37"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="GE" hidden="true">
+                                    <position x="93" y="61"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="22" typeName="AND" localId="109">
+                            <position x="98" y="58"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="98" y="61"/>
+                                    <connection refLocalId="108" formalParameter="GE"/>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="98" y="75"/>
+                                    <connection refLocalId="107" formalParameter="LE"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="OUT" hidden="true">
+                                    <position x="105" y="61"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="12" typeName="LE" localId="110">
+                            <position x="86" y="100"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="86" y="103"/>
+                                    <connection refLocalId="25">
+                                        <position x="84" y="104"/>
+                                        <position x="65" y="104"/>
+                                        <position x="65" y="90"/>
+                                        <position x="65" y="76"/>
+                                        <position x="65" y="62"/>
+                                        <position x="65" y="43"/>
+                                        <position x="65" y="29"/>
+                                        <position x="65" y="15"/>
+                                        <position x="63" y="15"/>
+                                    </connection>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="86" y="107"/>
+                                    <connection refLocalId="46"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="LE" hidden="true">
+                                    <position x="93" y="103"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="12" typeName="GE" localId="111">
+                            <position x="86" y="86"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="86" y="89"/>
+                                    <connection refLocalId="25">
+                                        <position x="84" y="90"/>
+                                        <position x="65" y="90"/>
+                                        <position x="65" y="76"/>
+                                        <position x="65" y="62"/>
+                                        <position x="65" y="43"/>
+                                        <position x="65" y="29"/>
+                                        <position x="65" y="15"/>
+                                        <position x="63" y="15"/>
+                                    </connection>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="86" y="93"/>
+                                    <connection refLocalId="40"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="GE" hidden="true">
+                                    <position x="93" y="89"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="22" typeName="AND" localId="112">
+                            <position x="98" y="86"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="98" y="89"/>
+                                    <connection refLocalId="111" formalParameter="GE"/>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="98" y="103"/>
+                                    <connection refLocalId="110" formalParameter="LE"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="OUT" hidden="true">
+                                    <position x="105" y="89"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="12" typeName="EQ" localId="113">
+                            <position x="86" y="119"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="86" y="122"/>
+                                    <connection refLocalId="25">
+                                        <position x="84" y="123"/>
+                                        <position x="65" y="123"/>
+                                        <position x="65" y="104"/>
+                                        <position x="65" y="90"/>
+                                        <position x="65" y="76"/>
+                                        <position x="65" y="62"/>
+                                        <position x="65" y="43"/>
+                                        <position x="65" y="29"/>
+                                        <position x="65" y="15"/>
+                                        <position x="63" y="15"/>
+                                    </connection>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="86" y="126"/>
+                                    <connection refLocalId="48"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="EQ" hidden="true">
+                                    <position x="93" y="122"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="12" typeName="LE" localId="114">
+                            <position x="86" y="147"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="86" y="150"/>
+                                    <connection refLocalId="25">
+                                        <position x="84" y="151"/>
+                                        <position x="65" y="151"/>
+                                        <position x="65" y="137"/>
+                                        <position x="65" y="123"/>
+                                        <position x="65" y="104"/>
+                                        <position x="65" y="90"/>
+                                        <position x="65" y="76"/>
+                                        <position x="65" y="62"/>
+                                        <position x="65" y="43"/>
+                                        <position x="65" y="29"/>
+                                        <position x="65" y="15"/>
+                                        <position x="63" y="15"/>
+                                    </connection>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="86" y="154"/>
+                                    <connection refLocalId="56"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="LE" hidden="true">
+                                    <position x="93" y="150"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="12" typeName="GE" localId="115">
+                            <position x="86" y="133"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="86" y="136"/>
+                                    <connection refLocalId="25">
+                                        <position x="84" y="137"/>
+                                        <position x="65" y="137"/>
+                                        <position x="65" y="123"/>
+                                        <position x="65" y="104"/>
+                                        <position x="65" y="90"/>
+                                        <position x="65" y="76"/>
+                                        <position x="65" y="62"/>
+                                        <position x="65" y="43"/>
+                                        <position x="65" y="29"/>
+                                        <position x="65" y="15"/>
+                                        <position x="63" y="15"/>
+                                    </connection>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="86" y="140"/>
+                                    <connection refLocalId="53"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="GE" hidden="true">
+                                    <position x="93" y="136"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                        <block width="8" height="22" typeName="AND" localId="116">
+                            <position x="98" y="133"/>
+                            <inputVariables>
+                                <variable formalParameter="IN1" hidden="true">
+                                    <position x="98" y="136"/>
+                                    <connection refLocalId="115" formalParameter="GE"/>
+                                </variable>
+                                <variable formalParameter="IN2" hidden="true">
+                                    <position x="98" y="150"/>
+                                    <connection refLocalId="114" formalParameter="LE"/>
+                                </variable>
+                            </inputVariables>
+                            <inOutVariables/>
+                            <outputVariables>
+                                <variable formalParameter="OUT" hidden="true">
+                                    <position x="105" y="136"/>
+                                </variable>
+                            </outputVariables>
+                        </block>
+                    </FBD>
+                </body>
+            </pou>
+        </pous>
+    </types>
+    <instances>
+        <configurations/>
+    </instances>
 </project>

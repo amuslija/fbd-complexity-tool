@@ -13,10 +13,19 @@ public class ASTNode {
   private String type = "";
   private String name = "";
   private String key = "";
+  private String value = "";
   private ArrayList<ASTNode> nodes;
 
   public ASTNode() {
     nodes = new ArrayList<ASTNode>();
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
   }
 
   public String getType() {
@@ -27,12 +36,17 @@ public class ASTNode {
     this.type = type;
   }
 
-  public int getTreeSize() {
+  public int treeSize() {
     int size = 0;
-    for (ASTNode node : nodes) {
-      size += node.getTreeSize();
+    if (nodes.size() == 0) {
+      return 1;
     }
-    return size + 1;
+
+    for (ASTNode node : nodes) {
+      size += node.treeSize();
+    }
+
+    return size;
   }
 
   public ArrayList<ASTNode> getChildNodes() {
