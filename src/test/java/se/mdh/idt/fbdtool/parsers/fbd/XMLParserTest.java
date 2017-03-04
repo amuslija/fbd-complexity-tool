@@ -3,7 +3,10 @@ package se.mdh.idt.fbdtool.parsers.fbd;
 import org.dom4j.DocumentException;
 import org.junit.Before;
 import org.junit.Test;
-import se.mdh.idt.fbdtool.structures.ASTNode;
+import se.mdh.idt.fbdtool.structures.Block;
+import se.mdh.idt.fbdtool.structures.Variable;
+
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -18,18 +21,19 @@ public class XMLParserTest {
   }
 
   @Test
-  public void addVariablesToTree() throws DocumentException {
+  public void extractVariablesFromXML() throws DocumentException {
     String url = getClass().getResource("/test1/plc.xml").getPath();
     XMLParser xmlParser = new XMLParser(url, "config.properties");
-    ASTNode node = xmlParser.searchForVariables();
-    assertThat(node.treeSize(), is(18));
+    List<Variable> variables = xmlParser.extractProjectVariables();
+    assertThat(variables.size(), is(18));
   }
 
   @Test
-  public void addDataTypesToTree() throws DocumentException {
+  public void extractBlocksFromXML() throws DocumentException {
     String url = getClass().getResource("/test1/plc.xml").getPath();
     XMLParser xmlParser = new XMLParser(url, "config.properties");
-    ASTNode node = xmlParser.searchForDataTypes();
-    assertThat(node.treeSize(), is(1));
+    List<Block> blocks = xmlParser.extractProjectBlocks();
+    assertThat(blocks.size(), is(29));
   }
+
 }
