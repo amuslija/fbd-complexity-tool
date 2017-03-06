@@ -44,6 +44,19 @@ public class XMLParser implements FBDParser {
     return config;
   }
 
+  public void extractConnections(Project project) {
+    for (POU pou : project.getPOUs()) {
+      for (Block block : pou.getBlocks()) {
+        for (Integer ref : block.getReferences()) {
+          int[] conn = new int[2];
+          conn[0] = ref;
+          conn[1] = block.getId();
+          pou.getConnections().add(conn);
+        }
+      }
+    }
+  }
+
   private void loadConfiguration(String file, String properties) throws DocumentException {
     this.doc = this.loadXMLDocument(file);
     this.config = this.loadProperties(properties);
@@ -98,8 +111,14 @@ public class XMLParser implements FBDParser {
     }
 
     block.setId(Integer.parseInt(e.attributeValue(this.config.getProperty("blocks.id"))));
-    extractBlockVariables(e, block);
 
+    if(e.getName().equals("outVariable")) {
+      String ref = e.element("connectionPointIn").element("connection").attributeValue("refLocalId");
+      block.getReferences().add(Integer.parseInt(ref));
+    }
+    else {
+      extractBlockVariables(e, block);
+    }
     return block;
   }
 
@@ -169,12 +188,12 @@ public class XMLParser implements FBDParser {
     }
   }
 
-
   @Override
   public Project extractFBDProject() {
     Project project = new Project();
     Element root = this.doc.getRootElement();
     parseXML(root, project);
+    extractConnections(project);
     return project;
   }
 

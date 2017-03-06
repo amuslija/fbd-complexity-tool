@@ -32,5 +32,25 @@ public class Project {
     return pous;
   }
 
+  public List<Variable> getAllVariables() {
+    ArrayList<Variable> variables = new ArrayList<>();
+
+    for(POU pou : this.pous) {
+      variables.addAll(pou.getVariables());
+    }
+
+    return variables;
+  }
+
+  public List<Block> getAllBlocks() {
+    ArrayList<Block> blocks = new ArrayList<>();
+
+    for(POU pou : this.pous) {
+      blocks.addAll(pou.getBlocks());
+    }
+
+    return blocks;
+  }
+
 
 }

@@ -4,6 +4,7 @@ import org.dom4j.DocumentException;
 import org.junit.Before;
 import org.junit.Test;
 import se.mdh.idt.fbdtool.structures.Block;
+import se.mdh.idt.fbdtool.structures.POU;
 import se.mdh.idt.fbdtool.structures.Variable;
 
 import java.util.List;
@@ -34,6 +35,16 @@ public class XMLParserTest {
     XMLParser xmlParser = new XMLParser(url, "config.properties");
     List<Block> blocks = xmlParser.extractProjectBlocks();
     assertThat(blocks.size(), is(29));
+  }
+
+  @Test
+  public void checkExtractedBlocksForConnections() throws DocumentException {
+    String url = getClass().getResource("/test1/plc.xml").getPath();
+    XMLParser xmlParser = new XMLParser(url, "config.properties");
+    List<POU> pous = xmlParser.extractProjectPOUs();
+    assertThat(pous.get(0).getConnections().size(), is(20));
+    assertThat(pous.get(1).getConnections().size(), is(9));
+
   }
 
 }
