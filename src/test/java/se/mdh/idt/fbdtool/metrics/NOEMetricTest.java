@@ -32,8 +32,8 @@ public class NOEMetricTest {
     HashMap<String, Double> results = metric.measureProjectComplexity(project);
     assertThat(results.get("Variables"), is(18.0));
     assertThat(results.get("DataTypes"), is(1.0));
-    assertThat(results.get("Blocks"), is(29.0));
-    assertThat(results.get("Connections"), is(29.0));
+    assertThat(results.get("Blocks"), is(30.0));
+    assertThat(results.get("Connections"), is(30.0));
   }
 
   @Test

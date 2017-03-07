@@ -11,15 +11,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 /**
  * Created by ado_4 on 2/23/2017.
  */
 public class XMLParser implements FBDParser {
   private Document doc;
-  private Properties config;
+  private HashMap<String, String> tags;
 
   public XMLParser(String file, String properties) throws DocumentException {
     this.loadConfiguration(file, properties);
@@ -59,24 +61,28 @@ public class XMLParser implements FBDParser {
 
   private void loadConfiguration(String file, String properties) throws DocumentException {
     this.doc = this.loadXMLDocument(file);
-    this.config = this.loadProperties(properties);
+    Properties props = this.loadProperties(properties);
+
+    // Load properties into a String
+    this.tags = new HashMap<>();
+    this.tags.putAll(props.entrySet().stream().collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString())));
   }
 
   private Variable extractVariable(Element e, String type) {
     Variable var = new Variable();
     var.setElement(type);
-    var.setName(e.attributeValue("name"));
-    Element key = ((Element) e.element("type").elements().get(0));
+    var.setName(e.attributeValue(this.tags.get("variable.name")));
+    Element key = ((Element) e.element(this.tags.get("variable.type")).elements().get(0));
 
-    if (key.getName() == "derived") {
+    if (key.getName().equals(this.tags.get("variable.derived"))) {
       var.setType(key.attributeValue("name"));
     } else {
       var.setType(key.getName());
     }
 
-    if (e.element("initialValue") != null) {
-      Element value = (Element) e.element("initialValue").elements().get(0);
-      var.setValue(value.attributeValue("value"));
+    if (e.element(this.tags.get("variable.value")) != null) {
+      Element value = (Element) e.element(this.tags.get("variable.value")).elements().get(0);
+      var.setValue(value.attributeValue(this.tags.get("variable.value.attribute")));
     }
 
     return var;
@@ -84,14 +90,14 @@ public class XMLParser implements FBDParser {
 
   private DataType extractDataType(Element e) {
     DataType dataType = new DataType();
-    dataType.setElement("dataType");
-    dataType.setName(e.attributeValue("name"));
-    Element type = ((Element) e.element("baseType").elements().get(0));
+    dataType.setElement(this.tags.get("datatype"));
+    dataType.setName(e.attributeValue(this.tags.get("datatype.name")));
+    Element type = ((Element) e.element(this.tags.get("datatype.base")).elements().get(0));
     dataType.setType(type.getName());
 
-    if (e.element("initialValue") != null) {
-      Element value = (Element) e.element("initialValue").elements().get(0);
-      dataType.setValue(value.attributeValue("value"));
+    if (e.element(this.tags.get("datatype.value")) != null) {
+      Element value = (Element) e.element(this.tags.get("datatype.value")).elements().get(0);
+      dataType.setValue(value.attributeValue(this.tags.get("datatype.value.attribute")));
     }
 
     return dataType;
@@ -102,18 +108,18 @@ public class XMLParser implements FBDParser {
     Block block = new Block();
     block.setElement(e.getName());
 
-    if (e.element(this.config.getProperty("blocks.variable")) != null) {
+    if (e.element(this.tags.get("block.variable")) != null) {
       block.setType("block");
-      block.setName(e.element(this.config.getProperty("blocks.variable")).getText());
+      block.setName(e.element(this.tags.get("block.variable")).getText());
     } else {
-      block.setName(e.attributeValue(this.config.getProperty("blocks.name")));
+      block.setName(e.attributeValue(this.tags.get("block.name")));
       block.setType(block.getName());
     }
 
-    block.setId(Integer.parseInt(e.attributeValue(this.config.getProperty("blocks.id"))));
+    block.setId(Integer.parseInt(e.attributeValue(this.tags.get("block.id"))));
 
-    if(e.getName().equals("outVariable")) {
-      String ref = e.element("connectionPointIn").element("connection").attributeValue("refLocalId");
+    if(e.getName().equals(this.tags.get("block.output"))) {
+      String ref = e.element(this.tags.get("block.conn.point")).element(this.tags.get("block.conn")).attributeValue(this.tags.get("block.ref"));
       block.getReferences().add(Integer.parseInt(ref));
     }
     else {
@@ -123,7 +129,7 @@ public class XMLParser implements FBDParser {
   }
 
   private void extractBlockVariables(Element e, Block block) {
-    String[] variables = this.config.get("blocks.variable.types").toString().split(",");
+    String[] variables = this.tags.get("block.variable.types").toString().split(",");
     for (String varType : variables) {
       Element ins = e.element(varType);
       if (ins != null) {
@@ -131,7 +137,7 @@ public class XMLParser implements FBDParser {
           Element vars = (Element) ins.elements().get(i);
           block.getPins().add(varType + " " + vars.getName());
           if (varType.equals(variables[0])) {
-            String ref = vars.element("connectionPointIn").element("connection").attributeValue("refLocalId");
+            String ref = vars.element(this.tags.get("block.conn.point")).element(this.tags.get("block.conn")).attributeValue(this.tags.get("block.ref"));
             block.getReferences().add(Integer.parseInt(ref));
           }
         }
@@ -164,22 +170,22 @@ public class XMLParser implements FBDParser {
         Element parent = el.getParent();
         POU pou = this.getLastPOU(project);
 
-        if (el.getName().equals(this.config.getProperty("datatype"))) {
+        if (el.getName().equals(this.tags.get("datatype"))) {
           project.getDataTypes().add(extractDataType(el));
         }
 
-        if (el.getName().equals(this.config.getProperty("pou"))) {
+        if (el.getName().equals(this.tags.get("pou"))) {
           project.getPOUs().add(extractPOU(el));
         }
 
 
-        if (el.getName().equals(this.config.getProperty("variable"))) {
-          if (this.config.getProperty("variables.types").contains(parent.getName())) {
+        if (el.getName().equals(this.tags.get("variable"))) {
+          if (this.tags.get("variables.types").contains(parent.getName())) {
             pou.getVariables().add(extractVariable(el, el.getParent().getName()));
           }
         }
 
-        if (this.config.getProperty("blocks.types").contains(el.getName())) {
+        if (this.tags.get("block.types").contains(el.getName())) {
           pou.getBlocks().add(extractBlock(el));
         }
 

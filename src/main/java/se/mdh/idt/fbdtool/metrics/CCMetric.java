@@ -7,6 +7,7 @@ import se.mdh.idt.fbdtool.structures.Project;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by ado_4 on 3/5/2017.
@@ -48,7 +49,9 @@ public class CCMetric implements ComplexityMetric {
     HashMap<String, Double> metric = new HashMap<>();
     String metricName = metricTitle + ":" + pou.getName();
     List<Block> blocks = pou.getBlocks();
-    List<Integer> decisionBlocks = blocks.stream().filter(b -> weights.get(b.getName()) != null).map(b -> weights.get(b.getName())).collect(Collectors.toList());
+
+    Stream<Block> decisionBlocksStream = blocks.stream().filter(b -> (weights.get(b.getName()) != null) && (b.getElement().equals("block")));
+    List<Integer> decisionBlocks = decisionBlocksStream.map(b -> weights.get(b.getName())).collect(Collectors.toList());
     int cNumber = decisionBlocks.stream().mapToInt(Integer::intValue).sum() + 1;
     metric.put(metricName, (double) cNumber);
     return metric;
