@@ -10,5 +10,6 @@ import java.util.HashMap;
  */
 public interface ComplexityMetric {
   HashMap<String, Double> measureProjectComplexity(Project project);
+
   HashMap<String, Double> measurePOUComplexity(POU pou);
 }

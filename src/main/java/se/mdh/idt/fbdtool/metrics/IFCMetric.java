@@ -6,7 +6,6 @@ import se.mdh.idt.fbdtool.structures.Variable;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by ado_4 on 3/5/2017.
@@ -20,13 +19,11 @@ public class IFCMetric implements ComplexityMetric {
   private int[] filterIOVariables(List<Variable> variables) {
     int[] results = new int[3];
     for (Variable var : variables) {
-      if(var.getElement().equals("inputVars")) {
+      if (var.getElement().equals("inputVars")) {
         results[0]++;
-      }
-      else if(var.getElement().equals("outputVars")) {
+      } else if (var.getElement().equals("outputVars")) {
         results[1]++;
-      }
-      else if(var.getElement().equals("inOutVars")) {
+      } else if (var.getElement().equals("inOutVars")) {
         results[2]++;
       }
     }
@@ -36,7 +33,7 @@ public class IFCMetric implements ComplexityMetric {
 
   private Double calculateInformationFlow(POU pou) {
     int results[] = this.filterIOVariables(pou.getVariables());
-    if(pou.getType().equals("function")) {
+    if (pou.getType().equals("function")) {
       results[1]++;
     }
     int pouSize = pou.getBlocks().size() + pou.getConnections().size() + pou.getVariables().size();

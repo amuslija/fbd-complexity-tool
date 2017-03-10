@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by ado_4 on 2/23/2017.
  */
-public class XMLParserTest {
+public class DOM4JParserTest {
   @Before
   public void setUp() throws Exception {
 
@@ -24,7 +24,7 @@ public class XMLParserTest {
   @Test
   public void extractVariablesFromXML() throws DocumentException {
     String url = getClass().getResource("/test1/plc.xml").getPath();
-    XMLParser xmlParser = new XMLParser(url, "config.properties");
+    DOM4JParser xmlParser = new DOM4JParser(url, "config.properties");
     List<Variable> variables = xmlParser.extractProjectVariables();
     assertThat(variables.size(), is(18));
   }
@@ -32,18 +32,18 @@ public class XMLParserTest {
   @Test
   public void extractBlocksFromXML() throws DocumentException {
     String url = getClass().getResource("/test1/plc.xml").getPath();
-    XMLParser xmlParser = new XMLParser(url, "config.properties");
+    DOM4JParser xmlParser = new DOM4JParser(url, "config.properties");
     List<Block> blocks = xmlParser.extractProjectBlocks();
-    assertThat(blocks.size(), is(29));
+    assertThat(blocks.size(), is(30));
   }
 
   @Test
   public void checkExtractedBlocksForConnections() throws DocumentException {
     String url = getClass().getResource("/test1/plc.xml").getPath();
-    XMLParser xmlParser = new XMLParser(url, "config.properties");
+    DOM4JParser xmlParser = new DOM4JParser(url, "config.properties");
     List<POU> pous = xmlParser.extractProjectPOUs();
     assertThat(pous.get(0).getConnections().size(), is(20));
-    assertThat(pous.get(1).getConnections().size(), is(9));
+    assertThat(pous.get(1).getConnections().size(), is(10));
 
   }
 

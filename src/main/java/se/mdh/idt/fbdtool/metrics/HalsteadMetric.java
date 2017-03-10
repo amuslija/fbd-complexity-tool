@@ -12,14 +12,14 @@ public class HalsteadMetric implements ComplexityMetric {
   HashMap<String, Double> operands;
   HashMap<String, Double> metric;
 
+  public HalsteadMetric() {
+    this.generateParameters();
+  }
+
   private void generateParameters() {
     this.operators = new HashMap<>();
     this.operands = new HashMap<>();
     this.metric = new HashMap<>();
-  }
-
-  public HalsteadMetric() {
-    this.generateParameters();
   }
 
   public HashMap<String, Double> getOperators() {

@@ -8,6 +8,7 @@ import org.dom4j.io.SAXReader;
 import se.mdh.idt.fbdtool.structures.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -19,11 +20,11 @@ import java.util.stream.Collectors;
 /**
  * Created by ado_4 on 2/23/2017.
  */
-public class XMLParser implements FBDParser {
+public class DOM4JParser implements FBDParser {
   private Document doc;
   private HashMap<String, String> tags;
 
-  public XMLParser(String file, String properties) throws DocumentException {
+  public DOM4JParser(String file, String properties) throws DocumentException {
     this.loadConfiguration(file, properties);
   }
 
@@ -35,9 +36,10 @@ public class XMLParser implements FBDParser {
 
   private Properties loadProperties(String properties) {
     Properties config = new Properties();
-    InputStream inputStream = getClass().getClassLoader().getResourceAsStream(properties);
+
 
     try {
+      InputStream inputStream = new FileInputStream(properties);
       config.load(inputStream);
     } catch (IOException e) {
       e.printStackTrace();
@@ -118,11 +120,10 @@ public class XMLParser implements FBDParser {
 
     block.setId(Integer.parseInt(e.attributeValue(this.tags.get("block.id"))));
 
-    if(e.getName().equals(this.tags.get("block.output"))) {
+    if (e.getName().equals(this.tags.get("block.output"))) {
       String ref = e.element(this.tags.get("block.conn.point")).element(this.tags.get("block.conn")).attributeValue(this.tags.get("block.ref"));
       block.getReferences().add(Integer.parseInt(ref));
-    }
-    else {
+    } else {
       extractBlockVariables(e, block);
     }
     return block;

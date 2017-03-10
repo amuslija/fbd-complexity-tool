@@ -2,7 +2,7 @@ package se.mdh.idt.fbdtool.metrics;
 
 import org.junit.Before;
 import org.junit.Test;
-import se.mdh.idt.fbdtool.parsers.fbd.XMLParser;
+import se.mdh.idt.fbdtool.parsers.fbd.DOM4JParser;
 import se.mdh.idt.fbdtool.structures.Project;
 
 import java.util.HashMap;
@@ -15,13 +15,13 @@ import static org.hamcrest.number.IsCloseTo.closeTo;
  * Created by ado_4 on 3/7/2017.
  */
 public class HalsteadMetricTest {
-  XMLParser xmlParser;
+  DOM4JParser xmlParser;
   HalsteadMetric metric;
 
   @Before
   public void setUp() throws Exception {
     String url = getClass().getResource("/test1/plc.xml").getPath();
-    xmlParser = new XMLParser(url, "config.properties");
+    xmlParser = new DOM4JParser(url, "config.properties");
     metric = new HalsteadMetric();
   }
 

@@ -6,15 +6,13 @@ import se.mdh.idt.fbdtool.structures.Project;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by ado_4 on 3/5/2017.
  */
 public class CCMetric implements ComplexityMetric {
 
-  static public final String[] keywords = {"AND","OR","XOR","SEL","MAX","MIN","LIMIT","MUX","GT","GE","EQ","LT","LE","NE"};
+  static public final String[] keywords = {"AND", "OR", "XOR", "SEL", "MAX", "MIN", "LIMIT", "MUX", "GT", "GE", "EQ", "LT", "LE", "NE"};
   private HashMap<String, Integer> weights;
   private String metricTitle = "CyclomaticNumber";
 
@@ -39,7 +37,7 @@ public class CCMetric implements ComplexityMetric {
   public HashMap<String, Double> measureProjectComplexity(Project project) {
     HashMap<String, Double> metric = new HashMap<>();
     for (POU pou : project.getPOUs()) {
-      metric.putAll(this.measurePOUComplexity(pou));
+      this.analyzePOUComplexity(pou, metric);
     }
     return metric;
   }
@@ -47,13 +45,19 @@ public class CCMetric implements ComplexityMetric {
   @Override
   public HashMap<String, Double> measurePOUComplexity(POU pou) {
     HashMap<String, Double> metric = new HashMap<>();
-    String metricName = metricTitle + ":" + pou.getName();
-    List<Block> blocks = pou.getBlocks();
-
-    Stream<Block> decisionBlocksStream = blocks.stream().filter(b -> (weights.get(b.getName()) != null) && (b.getElement().equals("block")));
-    List<Integer> decisionBlocks = decisionBlocksStream.map(b -> weights.get(b.getName())).collect(Collectors.toList());
-    int cNumber = decisionBlocks.stream().mapToInt(Integer::intValue).sum() + 1;
-    metric.put(metricName, (double) cNumber);
+    this.analyzePOUComplexity(pou, metric);
     return metric;
+  }
+
+  void analyzePOUComplexity(POU pou, HashMap<String, Double> metric) {
+    String metricName = this.metricTitle + ":" + pou.getName();
+    List<Block> blocks = pou.getBlocks();
+    int cComplexity = 0;
+    for (Block b : pou.getBlocks()) {
+      if (b.getElement().equals("block") && this.weights.get(b.getName()) != null) {
+        cComplexity += this.weights.get(b.getName());
+      }
+    }
+    metric.put(metricName, (double) cComplexity + 1);
   }
 }

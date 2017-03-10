@@ -3,13 +3,11 @@ package se.mdh.idt.fbdtool.metrics;
 import org.dom4j.DocumentException;
 import org.junit.Before;
 import org.junit.Test;
-import se.mdh.idt.fbdtool.parsers.fbd.XMLParser;
+import se.mdh.idt.fbdtool.parsers.fbd.DOM4JParser;
 import se.mdh.idt.fbdtool.structures.POU;
 import se.mdh.idt.fbdtool.structures.Project;
-import se.mdh.idt.fbdtool.structures.Variable;
 
 import java.util.HashMap;
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -26,7 +24,7 @@ public class NOEMetricTest {
   @Test
   public void measureComplexityOfProject() throws DocumentException {
     String url = getClass().getResource("/test1/plc.xml").getPath();
-    XMLParser xmlParser = new XMLParser(url, "config.properties");
+    DOM4JParser xmlParser = new DOM4JParser(url, "config.properties");
     Project project = xmlParser.extractFBDProject();
     NOEMetric metric = new NOEMetric();
     HashMap<String, Double> results = metric.measureProjectComplexity(project);
@@ -39,7 +37,7 @@ public class NOEMetricTest {
   @Test
   public void measurecomplexityOfPOU() throws DocumentException {
     String url = getClass().getResource("/test1/plc.xml").getPath();
-    XMLParser xmlParser = new XMLParser(url, "config.properties");
+    DOM4JParser xmlParser = new DOM4JParser(url, "config.properties");
     POU pou = xmlParser.extractProjectPOUs().get(0);
     NOEMetric metric = new NOEMetric();
     HashMap<String, Double> results = metric.measurePOUComplexity(pou);

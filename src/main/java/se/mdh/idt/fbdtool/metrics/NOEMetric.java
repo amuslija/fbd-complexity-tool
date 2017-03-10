@@ -11,7 +11,9 @@ import java.util.HashMap;
 public class NOEMetric implements ComplexityMetric {
 
   static public final String[] keys = {"DataTypes", "Variables", "Blocks", "Connections"};
-  public NOEMetric() {}
+
+  public NOEMetric() {
+  }
 
   private HashMap<String, Double> addKeysToMap() {
     HashMap<String, Double> map = new HashMap<>();

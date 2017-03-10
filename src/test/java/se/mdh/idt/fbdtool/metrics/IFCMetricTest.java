@@ -2,25 +2,26 @@ package se.mdh.idt.fbdtool.metrics;
 
 import org.junit.Before;
 import org.junit.Test;
-import se.mdh.idt.fbdtool.parsers.fbd.XMLParser;
+import se.mdh.idt.fbdtool.parsers.fbd.DOM4JParser;
 import se.mdh.idt.fbdtool.structures.POU;
 import se.mdh.idt.fbdtool.structures.Project;
 
 import java.util.HashMap;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by ado_4 on 3/6/2017.
  */
 public class IFCMetricTest {
-  XMLParser xmlParser;
+  DOM4JParser xmlParser;
   IFCMetric metric;
+
   @Before
   public void setUp() throws Exception {
     String url = getClass().getResource("/test1/plc.xml").getPath();
-    xmlParser = new XMLParser(url, "config.properties");
+    xmlParser = new DOM4JParser(url, "config.properties");
     metric = new IFCMetric();
   }
 
@@ -38,7 +39,6 @@ public class IFCMetricTest {
     HashMap<String, Double> results = metric.measurePOUComplexity(pou);
     assertThat(results.get("InformationFlow:Volume"), is(20400.0));
   }
-
 
 
 }

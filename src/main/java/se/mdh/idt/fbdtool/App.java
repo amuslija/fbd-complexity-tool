@@ -1,10 +1,10 @@
 package se.mdh.idt.fbdtool;
 
-/**
- * Hello world!
- */
+import se.mdh.idt.fbdtool.utility.MetricSuiteControl;
+
 public class App {
+
   public static void main(String[] args) {
-    System.out.println("Hello World!");
+    MetricSuiteControl.filterPLCProjects("");
   }
 }
