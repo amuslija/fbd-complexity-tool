@@ -24,6 +24,11 @@ public class DOM4JParser implements FBDParser {
   private Document doc;
   private HashMap<String, String> tags;
 
+  public DOM4JParser(String file, Properties properties) throws DocumentException {
+    this.doc = this.loadXMLDocument(file);
+    this.loadPropertiesToMap(properties);
+  }
+
   public DOM4JParser(String file, String properties) throws DocumentException {
     this.loadConfiguration(file, properties);
   }
@@ -34,18 +39,30 @@ public class DOM4JParser implements FBDParser {
     return reader.read(file);
   }
 
-  private Properties loadProperties(String properties) {
+  private Properties loadProperties(String properties)  {
     Properties config = new Properties();
-
-
+    InputStream inputStream = null;
     try {
-      InputStream inputStream = new FileInputStream(properties);
+      inputStream = getClass().getClassLoader().getResourceAsStream(properties);
       config.load(inputStream);
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println("Provided properties file not found. Using default properties");
     }
 
     return config;
+  }
+
+  private void loadConfiguration(String file, String properties) throws DocumentException {
+    this.doc = this.loadXMLDocument(file);
+    Properties props;
+    props = this.loadProperties(properties);
+    loadPropertiesToMap(props);
+  }
+
+  private void loadPropertiesToMap(Properties props) {
+    // Load properties into a String
+    this.tags = new HashMap<>();
+    this.tags.putAll(props.entrySet().stream().collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString())));
   }
 
   public void extractConnections(Project project) {
@@ -59,15 +76,6 @@ public class DOM4JParser implements FBDParser {
         }
       }
     }
-  }
-
-  private void loadConfiguration(String file, String properties) throws DocumentException {
-    this.doc = this.loadXMLDocument(file);
-    Properties props = this.loadProperties(properties);
-
-    // Load properties into a String
-    this.tags = new HashMap<>();
-    this.tags.putAll(props.entrySet().stream().collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString())));
   }
 
   private Variable extractVariable(Element e, String type) {
@@ -104,7 +112,6 @@ public class DOM4JParser implements FBDParser {
 
     return dataType;
   }
-
 
   private Block extractBlock(Element e) {
     Block block = new Block();
@@ -159,7 +166,6 @@ public class DOM4JParser implements FBDParser {
       List<POU> pous = project.getPOUs();
       return pous.get(pous.size() - 1);
     }
-
     return null;
   }
 
@@ -178,7 +184,6 @@ public class DOM4JParser implements FBDParser {
         if (el.getName().equals(this.tags.get("pou"))) {
           project.getPOUs().add(extractPOU(el));
         }
-
 
         if (el.getName().equals(this.tags.get("variable"))) {
           if (this.tags.get("variables.types").contains(parent.getName())) {

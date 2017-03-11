@@ -13,7 +13,7 @@ public class CLI {
     Options options = new Options();
     List<Option> optionList = new ArrayList<Option>();
     optionList.add(new Option("f", "folder", true, "Folder that contains .plc projects."));
-    optionList.add(new Option("m", "metrics", true, "List of complexity metrics that will be calculated."));
+    // optionList.add(new Option("m", "metrics", true, "List of complexity metrics that will be calculated."));
     optionList.add(new Option("c", "config", true, "Java configuration property file."));
     optionList.add(new Option("o", "output", true, "Output file path"));
 

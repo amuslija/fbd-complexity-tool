@@ -9,6 +9,7 @@ import se.mdh.idt.fbdtool.structures.Project;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 
 /**
@@ -18,15 +19,23 @@ public class MetricSuite implements Runnable {
   HashMap<String, Double> results;
   List<ComplexityMetric> metricList;
   private FBDParser parser;
-  private String configPath;
+  private Properties config;
   private String filePath;
+  private String name;
 
-  public MetricSuite(String configPath, String filePath) {
-    this.configPath = configPath;
+  public MetricSuite(Properties config, String filePath, String name) {
+    this.config = config;
     this.filePath = filePath;
     this.metricList = defaultMetrics();
+    this.name = name;
+  }
+  public String getName() {
+    return name;
   }
 
+  public HashMap<String, Double> getResults() {
+    return results;
+  }
   private List<ComplexityMetric> defaultMetrics() {
     ArrayList<ComplexityMetric> metricList = new ArrayList<>();
     metricList.add(new CCMetric());
@@ -36,13 +45,9 @@ public class MetricSuite implements Runnable {
     return metricList;
   }
 
-  public HashMap<String, Double> lastMeasurementResults() {
-    return this.results;
-  }
-
-  private boolean configureSuite(String configPath, String folderPath) {
+  private boolean configureSuite(Properties config, String folderPath) {
     try {
-      parser = new DOM4JParser(folderPath, configPath);
+      parser = new DOM4JParser(folderPath, config);
     } catch (DocumentException e) {
       e.printStackTrace();
       return false;
@@ -53,12 +58,9 @@ public class MetricSuite implements Runnable {
   private HashMap<String, Double> sequential() {
     Project project = parser.extractFBDProject();
     this.results = new HashMap<>();
-
     for (ComplexityMetric metric : metricList) {
       this.results.putAll(metric.measureProjectComplexity(project));
     }
-
-    System.out.println(java.lang.Thread.activeCount());
     return this.results;
   }
 
@@ -69,7 +71,7 @@ public class MetricSuite implements Runnable {
 
   @Override
   public void run() {
-    this.configureSuite(this.configPath, this.filePath);
+    this.configureSuite(this.config, this.filePath);
     this.measureComplexity();
   }
 }
