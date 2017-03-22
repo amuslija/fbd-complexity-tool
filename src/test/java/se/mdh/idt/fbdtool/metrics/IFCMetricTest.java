@@ -29,16 +29,13 @@ public class IFCMetricTest {
   public void measureProjectComplexity() throws Exception {
     Project project = xmlParser.extractFBDProject();
     HashMap<String, Double> results = metric.measureProjectComplexity(project);
-    assertThat(results.get("InformationFlow:Volume"), is(20400.0));
-    assertThat(results.get("InformationFlow:Norm"), is(243.0));
+    assertThat(results.get("InformationFlow"), is(20400.0));
   }
 
   @Test
   public void measurePOUComplexity() throws Exception {
     POU pou = xmlParser.extractProjectPOUs().get(0);
     HashMap<String, Double> results = metric.measurePOUComplexity(pou);
-    assertThat(results.get("InformationFlow:Volume"), is(20400.0));
+    assertThat(results.get("InformationFlow"), is(20400.0));
   }
-
-
 }

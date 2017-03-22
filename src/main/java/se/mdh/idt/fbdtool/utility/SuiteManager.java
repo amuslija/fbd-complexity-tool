@@ -2,13 +2,19 @@ package se.mdh.idt.fbdtool.utility;
 
 import se.mdh.idt.fbdtool.writers.CSVWriter;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 /**
@@ -19,23 +25,25 @@ public class SuiteManager {
   private static List<File> fbdProjects;
   private static List<MetricSuite> results;
   private static String defaultConfig = "config.properties";
+  private static int threadNumber = 100;
 
   public static void filterPLCProjects(String folderPath) {
     File dir = new File(folderPath);
     List<File> fileList = Arrays.asList(dir.listFiles());
     fbdProjects = fileList.stream().filter(f -> f.isFile() && f.getName().contains(".xml")).collect(Collectors.toList());
+
   }
 
-  public static void measurePLCMetrics(String config) throws IOException, TimeoutException {
+  public static void measurePLCMetrics(String config, String xsdValidation) throws IOException, TimeoutException {
     if (fbdProjects.size() == 0) {
       throw new NoSuchFileException("No file to be analyzed");
     }
     Properties props = prepareSuite(config);
-    ExecutorService service = Executors.newFixedThreadPool(fbdProjects.size());
+    ExecutorService service = Executors.newFixedThreadPool(threadNumber);
     boolean finished = false;
     results = new ArrayList<>();
     for (File f : fbdProjects) {
-      MetricSuite suite = new MetricSuite(props, f.getPath(), f.getName());
+      MetricSuite suite = new MetricSuite(props, f.getPath(), f.getName(), xsdValidation);
       results.add(suite);
       service.execute(suite);
     }
@@ -46,7 +54,6 @@ public class SuiteManager {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-
     if (!finished) {
       throw new TimeoutException();
     }
@@ -63,8 +70,6 @@ public class SuiteManager {
     Properties props = new Properties();
     props.load(inputStream);
 
-
-
     return props;
   }
 
@@ -75,7 +80,6 @@ public class SuiteManager {
       throw new Exception("No results found");
     }
     headerRow.addAll(results.get(0).getResults().keySet());
-
     CSVWriter writer = new CSVWriter(output, headerRow);
     for (MetricSuite suite : results) {
       writer.write(suite, false);

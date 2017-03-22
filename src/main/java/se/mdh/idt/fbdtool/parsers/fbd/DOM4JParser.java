@@ -8,7 +8,6 @@ import org.dom4j.io.SAXReader;
 import se.mdh.idt.fbdtool.structures.*;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class DOM4JParser implements FBDParser {
     return reader.read(file);
   }
 
-  private Properties loadProperties(String properties)  {
+  private Properties loadProperties(String properties) {
     Properties config = new Properties();
     InputStream inputStream = null;
     try {
@@ -62,7 +61,8 @@ public class DOM4JParser implements FBDParser {
   private void loadPropertiesToMap(Properties props) {
     // Load properties into a String
     this.tags = new HashMap<>();
-    this.tags.putAll(props.entrySet().stream().collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString())));
+    this.tags.putAll(props.entrySet().stream()
+            .collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString())));
   }
 
   public void extractConnections(Project project) {
@@ -128,7 +128,10 @@ public class DOM4JParser implements FBDParser {
     block.setId(Integer.parseInt(e.attributeValue(this.tags.get("block.id"))));
 
     if (e.getName().equals(this.tags.get("block.output"))) {
-      String ref = e.element(this.tags.get("block.conn.point")).element(this.tags.get("block.conn")).attributeValue(this.tags.get("block.ref"));
+      String ref = e.element(this.tags.get("block.conn.point"))
+              .element(this.tags.get("block.conn"))
+              .attributeValue(this.tags.get("block.ref"));
+
       block.getReferences().add(Integer.parseInt(ref));
     } else {
       extractBlockVariables(e, block);
@@ -145,7 +148,10 @@ public class DOM4JParser implements FBDParser {
           Element vars = (Element) ins.elements().get(i);
           block.getPins().add(varType + " " + vars.getName());
           if (varType.equals(variables[0])) {
-            String ref = vars.element(this.tags.get("block.conn.point")).element(this.tags.get("block.conn")).attributeValue(this.tags.get("block.ref"));
+            String ref = vars.element(this.tags.get("block.conn.point"))
+                    .element(this.tags.get("block.conn"))
+                    .attributeValue(this.tags.get("block.ref"));
+
             block.getReferences().add(Integer.parseInt(ref));
           }
         }

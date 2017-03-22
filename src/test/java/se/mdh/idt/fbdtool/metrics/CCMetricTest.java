@@ -28,7 +28,6 @@ public class CCMetricTest {
     metric = new CCMetric();
   }
 
-
   @Test
   public void measureProjectComplexity() {
     Project project = xmlParser.extractFBDProject();
@@ -36,16 +35,13 @@ public class CCMetricTest {
     int[] weights = {1};
     metric.addNewKeywords(keywords, weights);
     HashMap<String, Double> results = metric.measureProjectComplexity(project);
-
-    assertThat(results.get("CyclomaticNumber:Volume"), is(5.0));
-    assertThat(results.get("CyclomaticNumber:Norm"), is(2.0));
+    assertThat(results.get("CyclomaticNumber"), is(5.0));
   }
 
   @Test
   public void measurePOUComplexity() {
     List<POU> pous = xmlParser.extractProjectPOUs();
     HashMap<String, Double> results = metric.measurePOUComplexity(pous.get(1));
-    assertThat(results.get("CyclomaticNumber:Norm"), is(2.0));
+    assertThat(results.get("CyclomaticNumber"), is(2.0));
   }
-
 }

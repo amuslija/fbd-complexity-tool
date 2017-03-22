@@ -9,7 +9,10 @@ import se.mdh.idt.fbdtool.utility.MetricSuite;
  */
 public interface ComplexityWriter {
   boolean write(Project p, boolean close);
+
   boolean write(POU pou, boolean close);
+
   boolean write(MetricSuite suite, boolean close);
+
   boolean close();
 }

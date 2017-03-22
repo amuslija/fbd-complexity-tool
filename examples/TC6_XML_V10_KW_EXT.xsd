@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema targetNamespace="http://www.kw-software.com/xml/PLCopen/TC6_XML_V10_KW_Ext.xsd"
+	xmlns:ppx="http://www.kw-software.com/xml/PLCopen/TC6_XML_V10_KW.xsd" xmlns:kw="http://www.kw-software.com/xml/PLCopen/TC6_XML_V10_KW_Ext.xsd"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:attributeGroup name="contentHeaderExtension">
+		<xsd:attribute name="connectionCheck" type="xsd:boolean" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="pouAttrExtension">
+		<xsd:attribute name="plcType" type="xsd:string" use="optional" />
+		<xsd:attribute name="procType" type="xsd:string" use="optional" />
+		<xsd:attribute name="useReserve" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="reserveRetain" use="optional">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:integer">
+					<xsd:minInclusive value="0" />
+					<xsd:maxInclusive value="65535" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="reserveNonRetain" use="optional">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:integer">
+					<xsd:minInclusive value="0" />
+					<xsd:maxInclusive value="65535" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="pouGroup" type="xsd:string" use="optional" />
+		<xsd:attribute name="lastChange" type="xsd:dateTime" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="worksheetAttrExtension">
+		<xsd:attribute name="name" type="xsd:string" use="optional" />
+		<xsd:attribute name="SizeX" type="xsd:decimal" use="optional" />
+		<xsd:attribute name="SizeY" type="xsd:decimal" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="varAttrExtension">
+		<xsd:attribute name="opc" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="pdd" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="toggleBoolean" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="group" type="xsd:string" use="optional" />
+		<xsd:attribute name="hidden" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="hiddenInit" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="notOnPlc" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="redundant" type="xsd:boolean" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="fbVarAttrExtension">
+		<xsd:attribute name="dataType" type="xsd:string" use="optional" default="none" />
+		<xsd:attribute name="flagType" type="xsd:string" use="optional" default="none" />
+		<xsd:attribute name="invertable" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="duplicatable" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="hideable" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="hiddenParameter" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="hiddenValue" type="xsd:string" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="configurationAttrExtension">
+		<xsd:attribute name="plcType" type="xsd:string" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="resourceAttrExtension">
+		<xsd:attribute name="procType" type="xsd:string" use="optional" />
+		<xsd:attribute name="watchdogTimeDefaultTask" type="xsd:time" use="optional" />
+		<xsd:attribute name="stackDefaultTask" type="xsd:string" use="optional" />
+		<xsd:attribute name="saveFPUDefaultTask" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="noSuspendDefaultTask" type="xsd:boolean" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="taskAttrExtension">
+		<xsd:attribute name="watchdogTime" type="xsd:time" use="optional" />
+		<xsd:attribute name="stack" type="xsd:string" use="optional" />
+		<xsd:attribute name="saveFPU" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="bypass" type="xsd:boolean" use="optional" />
+		<xsd:attribute name="noSuspend" type="xsd:boolean" use="optional" />
+	</xsd:attributeGroup>
+	<xsd:attributeGroup name="posExtension">
+		<xsd:attribute name="pathnode" type="xsd:boolean" use="optional" />
+	</xsd:attributeGroup>
+	
+</xsd:schema>

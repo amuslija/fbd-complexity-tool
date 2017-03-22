@@ -5,7 +5,6 @@ import se.mdh.idt.fbdtool.structures.POU;
 import se.mdh.idt.fbdtool.structures.Project;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by ado_4 on 3/5/2017.
@@ -50,14 +49,16 @@ public class CCMetric implements ComplexityMetric {
   }
 
   void analyzePOUComplexity(POU pou, HashMap<String, Double> metric) {
-    String metricName = this.metricTitle + ":" + pou.getName();
-    List<Block> blocks = pou.getBlocks();
     int cComplexity = 0;
     for (Block b : pou.getBlocks()) {
       if (b.getElement().equals("block") && this.weights.get(b.getName()) != null) {
         cComplexity += this.weights.get(b.getName());
       }
     }
-    metric.put(metricName, (double) cComplexity + 1);
+    if (metric.containsKey(this.metricTitle) && metric.get(this.metricTitle) < ((double) cComplexity + 1)) {
+      metric.put(this.metricTitle, (double) cComplexity + 1);
+    } else if (!metric.containsKey(this.metricTitle)) {
+      metric.put(this.metricTitle, (double) cComplexity + 1);
+    }
   }
 }

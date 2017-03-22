@@ -15,14 +15,21 @@ public class CLI {
     optionList.add(new Option("f", "folder", true, "Folder that contains .plc projects."));
     // optionList.add(new Option("m", "metrics", true, "List of complexity metrics that will be calculated."));
     optionList.add(new Option("c", "config", true, "Java configuration property file."));
+    optionList.add(new Option("v", "config", true, "Validate project files against an xsd schema."));
     optionList.add(new Option("o", "output", true, "Output file path"));
 
     for (Option o : optionList) {
-      o.setRequired(true);
-      options.addOption(o);
+      if (o.getOpt().equals("v")) {
+        o.setRequired(false);
+      } else {
+        o.setRequired(true);
+      }
+
       if (o.getOpt().equals("m")) {
         o.setArgs(Option.UNLIMITED_VALUES);
       }
+
+      options.addOption(o);
     }
 
     return options;

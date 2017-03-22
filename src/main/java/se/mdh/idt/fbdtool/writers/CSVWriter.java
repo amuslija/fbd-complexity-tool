@@ -14,17 +14,17 @@ import java.util.List;
  * Created by ado_4 on 3/11/2017.
  */
 public class CSVWriter implements ComplexityWriter {
-  private BufferedWriter writer;
-  private List<String> headerList;
   public static final String DELIMITER = ",";
   public static final String NEWLINE = "\n";
+  private BufferedWriter writer;
+  private List<String> headerList;
 
   public CSVWriter(String outputFile, List<String> header) {
     try {
       this.writer = new BufferedWriter(new FileWriter(outputFile));
       StringBuilder headerRow = new StringBuilder();
       this.headerList = header;
-      for (String s : header){
+      for (String s : header) {
         headerRow.append(s + DELIMITER);
 
       }
@@ -48,12 +48,22 @@ public class CSVWriter implements ComplexityWriter {
 
   @Override
   public boolean write(MetricSuite suite, boolean close) {
+    String fileName = "Name";
     StringBuilder row = new StringBuilder();
     row.append(suite.getName() + DELIMITER);
-
     HashMap<String, Double> results = suite.getResults();
+
     for (String s : this.headerList) {
-      row.append(results.get(s) + DELIMITER);
+      if (s.equals(fileName)) {
+        continue;
+      }
+
+      if (results.get(s) == null) {
+        System.out.println("Key " + s + " not found");
+      } else {
+        row.append(results.get(s) + DELIMITER);
+      }
+
     }
     row.deleteCharAt(row.length() - 1);
     row.append(NEWLINE);
@@ -82,6 +92,6 @@ public class CSVWriter implements ComplexityWriter {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return  success;
+    return success;
   }
 }

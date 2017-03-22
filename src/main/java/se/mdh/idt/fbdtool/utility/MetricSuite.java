@@ -16,19 +16,29 @@ import java.util.Properties;
  * Created by ado_4 on 3/10/2017.
  */
 public class MetricSuite implements Runnable {
+
   HashMap<String, Double> results;
   List<ComplexityMetric> metricList;
   private FBDParser parser;
   private Properties config;
   private String filePath;
   private String name;
+  private String type;
+  private boolean validated = false;
 
   public MetricSuite(Properties config, String filePath, String name) {
-    this.config = config;
-    this.filePath = filePath;
-    this.metricList = defaultMetrics();
-    this.name = name;
+    this.init(config, filePath, name);
   }
+
+  public MetricSuite(Properties config, String filePath, String name, String xsdPath) {
+    this.init(config, filePath, name);
+    this.validated = XMLProjectValidator.validateProjectFile(filePath, xsdPath);
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
   public String getName() {
     return name;
   }
@@ -36,6 +46,7 @@ public class MetricSuite implements Runnable {
   public HashMap<String, Double> getResults() {
     return results;
   }
+
   private List<ComplexityMetric> defaultMetrics() {
     ArrayList<ComplexityMetric> metricList = new ArrayList<>();
     metricList.add(new CCMetric());
@@ -55,23 +66,47 @@ public class MetricSuite implements Runnable {
     return true;
   }
 
-  private HashMap<String, Double> sequential() {
-    Project project = parser.extractFBDProject();
+  private HashMap<String, Double> projectComplexity() {
+    Project project = this.parser.extractFBDProject();
     this.results = new HashMap<>();
-    for (ComplexityMetric metric : metricList) {
+    for (ComplexityMetric metric : this.metricList) {
       this.results.putAll(metric.measureProjectComplexity(project));
     }
     return this.results;
   }
 
+  private void init(Properties config, String filePath, String name) {
+    this.config = config;
+    this.filePath = filePath;
+    this.metricList = this.defaultMetrics();
+    this.name = name;
+    this.type = "project";
+  }
 
-  public HashMap<String, Double> measureComplexity() {
-    return this.sequential();
+  private HashMap<String, Double> pouComplexity() {
+    return null;
+  }
+
+
+  public HashMap<String, Double> measureComplexity(String type) {
+    if (type.equals("project")) {
+      return this.projectComplexity();
+    }
+
+    if (type.equals("pou")) {
+      return this.pouComplexity();
+    }
+
+    return null;
   }
 
   @Override
   public void run() {
     this.configureSuite(this.config, this.filePath);
-    this.measureComplexity();
+    if (!validated) {
+      System.out.println(this.getName() + " " + "does not pass XSD schema validation");
+    } else {
+      this.measureComplexity(this.type);
+    }
   }
 }
