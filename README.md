@@ -1,6 +1,6 @@
 ![Tiqva logo](http://i.imgur.com/EfBRP9E.png)
 
-# Tiqva - Systematic FBD complexity measurement tool
+# Tiqva - FBD complexity measurement tool
 
 FBD Complexity Tool is a Java program used for measuring code complexity metrics of IEC 61131-3 Function Block Diagram programs. The tool supports FBD programs saved in the PLC Open TC6  XML schema.
 
