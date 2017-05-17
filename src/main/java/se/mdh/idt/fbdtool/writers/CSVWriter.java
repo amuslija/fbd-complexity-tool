@@ -7,6 +7,8 @@ import se.mdh.idt.fbdtool.utility.MetricSuite;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,26 +49,40 @@ public class CSVWriter implements ComplexityWriter {
   }
 
   @Override
-  public boolean write(MetricSuite suite, boolean close) {
+  public boolean write(MetricSuite suite, String type, boolean close) {
+
+    List<HashMap<String, Double> > measurementResults = new ArrayList<>();
+    if (type.equals("project")) {
+      measurementResults.add(suite.getResults());
+    } else {
+      measurementResults = suite.getPouResults();
+    }
+    int pouCounter = 0;
     String fileName = "Name";
     StringBuilder row = new StringBuilder();
-    row.append(suite.getName() + DELIMITER);
-    HashMap<String, Double> results = suite.getResults();
 
-    for (String s : this.headerList) {
-      if (s.equals(fileName)) {
-        continue;
-      }
-
-      if (results.get(s) == null) {
-        System.out.println("Key " + s + " not found");
+    for (HashMap<String, Double> results : measurementResults) {
+      if (type.equals("project")) {
+        row.append(suite.getName() + DELIMITER);
       } else {
-        row.append(results.get(s) + DELIMITER);
+        row.append(suite.getName().split(",")[pouCounter] + DELIMITER);
+        pouCounter++;
       }
+      for (String s : this.headerList) {
+        if (s.equals(fileName)) {
+          continue;
+        }
 
+        if (results.get(s) == null) {
+          System.out.println("Key " + s + " not found");
+        } else {
+          DecimalFormat df = new DecimalFormat("#0.00");
+          row.append(df.format(results.get(s)) + DELIMITER);
+        }
+      }
+      row.deleteCharAt(row.length() - 1);
+      row.append(NEWLINE);
     }
-    row.deleteCharAt(row.length() - 1);
-    row.append(NEWLINE);
     boolean success = false;
     try {
       this.writer.write(row.toString());

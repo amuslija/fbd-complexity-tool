@@ -26,12 +26,13 @@ public class SuiteManager {
   private static List<MetricSuite> results;
   private static String defaultConfig = "config.properties";
   private static int threadNumber = 100;
+  private static String type;
 
   public static void filterPLCProjects(String folderPath) {
     File dir = new File(folderPath);
     List<File> fileList = Arrays.asList(dir.listFiles());
     fbdProjects = fileList.stream().filter(f -> f.isFile() && f.getName().contains(".xml")).collect(Collectors.toList());
-
+    System.out.println("Number of FBD projects: " + fbdProjects.size());
   }
 
   public static void measurePLCMetrics(String config, String xsdValidation) throws IOException, TimeoutException {
@@ -39,13 +40,20 @@ public class SuiteManager {
       throw new NoSuchFileException("No file to be analyzed");
     }
     Properties props = prepareSuite(config);
+    List<String> filter = new ArrayList<>();
+    if (props.getProperty("filter") != null) {
+      filter = Arrays.asList(props.getProperty("filter").split(","));
+    }
+    type = props.getProperty("complexity.type");
     ExecutorService service = Executors.newFixedThreadPool(threadNumber);
     boolean finished = false;
     results = new ArrayList<>();
     for (File f : fbdProjects) {
-      MetricSuite suite = new MetricSuite(props, f.getPath(), f.getName(), xsdValidation);
-      results.add(suite);
-      service.execute(suite);
+      MetricSuite suite = new MetricSuite(props, f.getPath(), f.getName(), xsdValidation, type);
+      if (!filter.contains(suite.getName())) {
+        results.add(suite);
+        service.execute(suite);
+      }
     }
 
     service.shutdown();
@@ -79,10 +87,15 @@ public class SuiteManager {
     if (results.size() == 0) {
       throw new Exception("No results found");
     }
-    headerRow.addAll(results.get(0).getResults().keySet());
+    if (type.equals("pou")) {
+      headerRow.addAll(results.get(0).getPouResults().get(0).keySet());
+    } else {
+      headerRow.addAll(results.get(0).getResults().keySet());
+    }
+
     CSVWriter writer = new CSVWriter(output, headerRow);
     for (MetricSuite suite : results) {
-      writer.write(suite, false);
+      writer.write(suite, type, false);
     }
 
     writer.close();

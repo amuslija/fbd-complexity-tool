@@ -4,12 +4,10 @@ import org.dom4j.DocumentException;
 import se.mdh.idt.fbdtool.metrics.*;
 import se.mdh.idt.fbdtool.parsers.fbd.DOM4JParser;
 import se.mdh.idt.fbdtool.parsers.fbd.FBDParser;
+import se.mdh.idt.fbdtool.structures.POU;
 import se.mdh.idt.fbdtool.structures.Project;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 
 /**
@@ -18,7 +16,9 @@ import java.util.Properties;
 public class MetricSuite implements Runnable {
 
   HashMap<String, Double> results;
+  List<HashMap<String, Double> > pouResults;
   List<ComplexityMetric> metricList;
+
   private FBDParser parser;
   private Properties config;
   private String filePath;
@@ -26,12 +26,12 @@ public class MetricSuite implements Runnable {
   private String type;
   private boolean validated = false;
 
-  public MetricSuite(Properties config, String filePath, String name) {
-    this.init(config, filePath, name);
+  public MetricSuite(Properties config, String filePath, String name, String type) {
+    this.init(config, filePath, name, type);
   }
 
-  public MetricSuite(Properties config, String filePath, String name, String xsdPath) {
-    this.init(config, filePath, name);
+  public MetricSuite(Properties config, String filePath, String name, String xsdPath, String type) {
+    this.init(config, filePath, name, type);
     this.validated = XMLProjectValidator.validateProjectFile(filePath, xsdPath);
   }
 
@@ -44,16 +44,11 @@ public class MetricSuite implements Runnable {
   }
 
   public HashMap<String, Double> getResults() {
-    return results;
+    return this.results;
   }
 
-  private List<ComplexityMetric> defaultMetrics() {
-    ArrayList<ComplexityMetric> metricList = new ArrayList<>();
-    metricList.add(new CCMetric());
-    metricList.add(new NOEMetric());
-    metricList.add(new HalsteadMetric());
-    metricList.add(new IFCMetric());
-    return metricList;
+  public List<HashMap<String, Double> > getPouResults() {
+    return this.pouResults;
   }
 
   private boolean configureSuite(Properties config, String folderPath) {
@@ -75,29 +70,84 @@ public class MetricSuite implements Runnable {
     return this.results;
   }
 
-  private void init(Properties config, String filePath, String name) {
+  private void init(Properties config, String filePath, String name, String type) {
     this.config = config;
     this.filePath = filePath;
-    this.metricList = this.defaultMetrics();
-    this.name = name;
-    this.type = "project";
+    this.name = name.split(".xml")[0];
+    if (type.equals("pou")) {
+      this.type = "pou";
+    } else {
+      this.type = "project";
+    }
+    initializeMetrics(config);
+
   }
 
-  private HashMap<String, Double> pouComplexity() {
-    return null;
+  private void initializeMetrics(Properties config) {
+    this.metricList = new ArrayList<>();
+    List<String> metrics = Arrays.asList(config.getProperty("complexity.metrics").split(","));
+
+    for (String metric : metrics) {
+      switch (metric) {
+        case "noe":
+          this.metricList.add(new NOEMetric());
+          break;
+        case "hc":
+          this.metricList.add(new HalsteadMetric());
+          break;
+        case "ifc":
+          this.metricList.add(new IFCMetric());
+          break;
+        case "cc":
+          CCMetric ccMetric = new CCMetric();
+          if (config.getProperty("cyclomatic.keywords") != null && config.getProperty("cyclomatic.weights") != null) {
+            String[] keywords = config.getProperty("cyclomatic.keywords").split(",");
+            int[] weights = Arrays.stream(config.getProperty("cyclomatic.weights").split(","))
+                    .mapToInt(x -> Integer.parseInt(x))
+                    .toArray();
+            ccMetric.addNewKeywords(keywords, weights);
+          }
+          this.metricList.add(ccMetric);
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private List<HashMap<String, Double> > pouComplexity() {
+    Project project = this.parser.extractFBDProject();
+    this.pouResults = new ArrayList<>();
+    StringBuilder completeName = new StringBuilder();
+
+    for (POU pou : project.getPOUs()) {
+      completeName.append(pou.getName() + ",");
+      HashMap<String, Double> results = new HashMap<>();
+      for (ComplexityMetric metric : this.metricList) {
+        results.putAll(metric.measurePOUComplexity(pou));
+      }
+      this.pouResults.add(results);
+    }
+
+    HashMap<String, Double> projectResults = new HashMap<>();
+    for (ComplexityMetric metric : this.metricList) {
+      projectResults.putAll(metric.measureProjectComplexity(project));
+    }
+    pouResults.add(projectResults);
+    completeName.append(project.getTitle());
+    this.name = completeName.toString();
+    return this.pouResults;
   }
 
 
-  public HashMap<String, Double> measureComplexity(String type) {
+  public void measureComplexity(String type) {
     if (type.equals("project")) {
-      return this.projectComplexity();
+      this.projectComplexity();
     }
 
     if (type.equals("pou")) {
-      return this.pouComplexity();
+      this.pouComplexity();
     }
-
-    return null;
   }
 
   @Override

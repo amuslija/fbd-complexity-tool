@@ -10,6 +10,7 @@ import java.util.concurrent.TimeoutException;
 public class App {
 
   public static void main(String[] args) {
+    System.out.println("Starting FBD projects measurement...");
     long startTime = System.currentTimeMillis();
     CommandLine cli = CLI.parseArguments(args, CLI.generateCLIOptions());
 
@@ -25,6 +26,6 @@ public class App {
       e.printStackTrace();
     }
     long endTime = System.currentTimeMillis();
-    System.out.println(endTime - startTime);
+    System.out.println("Measurement time: " + (endTime - startTime) + " seconds");
   }
 }

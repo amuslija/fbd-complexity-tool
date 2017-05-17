@@ -11,14 +11,20 @@ import java.util.HashMap;
  */
 public class CCMetric implements ComplexityMetric {
 
-  static public final String[] keywords = {"AND", "OR", "XOR", "SEL", "MAX", "MIN", "LIMIT", "MUX", "GT", "GE", "EQ", "LT", "LE", "NE"};
+  static public final String[] functions = {"AND", "OR", "XOR", "SEL", "MAX", "MIN", "LIMIT", "MUX", "GT", "GE", "EQ", "LT", "LE", "NE", "RS", "SR", "F_TRIG", "R_TRIG"};
+  static public final String[] functionBlocks = {"CTU", "CTD", "CTUD", "TOF", "TON", "TP"};
+  static public final Integer[] functionBlockWeights = {3, 3, 6, 5, 5, 5};
   private HashMap<String, Integer> weights;
   private String metricTitle = "CyclomaticNumber";
 
   public CCMetric() {
     weights = new HashMap<>();
-    for (String key : keywords) {
+    for (String key : functions) {
       weights.put(key, 1);
+    }
+
+    for (int i = 0; i < functionBlocks.length; i++) {
+      weights.put(functionBlocks[i], functionBlockWeights[i]);
     }
   }
 
@@ -55,6 +61,7 @@ public class CCMetric implements ComplexityMetric {
         cComplexity += this.weights.get(b.getName());
       }
     }
+
     if (metric.containsKey(this.metricTitle) && metric.get(this.metricTitle) < ((double) cComplexity + 1)) {
       metric.put(this.metricTitle, (double) cComplexity + 1);
     } else if (!metric.containsKey(this.metricTitle)) {

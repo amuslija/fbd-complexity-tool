@@ -21,8 +21,10 @@ public class NOEMetric implements ComplexityMetric {
     map.put("Variables", 0.0);
     map.put("Blocks", 0.0);
     map.put("Connections", 0.0);
+    map.put("NumberOfElements", 0.0);
     return map;
   }
+
 
   @Override
   public HashMap<String, Double> measureProjectComplexity(Project project) {
@@ -33,6 +35,8 @@ public class NOEMetric implements ComplexityMetric {
       metric.put("Blocks", metric.get("Blocks") + pou.getBlocks().size());
       metric.put("Connections", metric.get("Connections") + pou.getConnections().size());
     }
+
+    metric.put("NumberOfElements", metric.values().stream().mapToDouble(Double::doubleValue).sum());
     return metric;
   }
 
@@ -42,6 +46,7 @@ public class NOEMetric implements ComplexityMetric {
     metric.put("Variables", metric.get("Variables") + pou.getVariables().size());
     metric.put("Blocks", metric.get("Blocks") + pou.getBlocks().size());
     metric.put("Connections", metric.get("Connections") + pou.getConnections().size());
+    metric.put("NumberOfElements", metric.values().stream().mapToDouble(Double::doubleValue).sum());
     return metric;
   }
 }

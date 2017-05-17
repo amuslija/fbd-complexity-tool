@@ -93,7 +93,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <finalName>fbd-complexity-tool</finalName>
+                    <finalName>tiqva</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>

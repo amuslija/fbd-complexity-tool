@@ -21,14 +21,17 @@ import java.util.stream.Collectors;
  */
 public class DOM4JParser implements FBDParser {
   private Document doc;
+  private String name;
   private HashMap<String, String> tags;
 
   public DOM4JParser(String file, Properties properties) throws DocumentException {
     this.doc = this.loadXMLDocument(file);
+    this.name = file;
     this.loadPropertiesToMap(properties);
   }
 
   public DOM4JParser(String file, String properties) throws DocumentException {
+    this.name = file;
     this.loadConfiguration(file, properties);
   }
 
@@ -52,6 +55,7 @@ public class DOM4JParser implements FBDParser {
   }
 
   private void loadConfiguration(String file, String properties) throws DocumentException {
+
     this.doc = this.loadXMLDocument(file);
     Properties props;
     props = this.loadProperties(properties);
@@ -139,6 +143,11 @@ public class DOM4JParser implements FBDParser {
     return block;
   }
 
+  private String extractProjectName(Element e) {
+    return e.attributeValue("productName");
+  }
+
+
   private void extractBlockVariables(Element e, Block block) {
     String[] variables = this.tags.get("block.variable.types").toString().split(",");
     for (String varType : variables) {
@@ -176,13 +185,16 @@ public class DOM4JParser implements FBDParser {
   }
 
   private void parseXML(Element e, Project project) {
+
     for (int i = 0; i < e.nodeCount(); i++) {
       Node n = e.node(i);
       if (n instanceof Element) {
         Element el = (Element) n;
         Element parent = el.getParent();
         POU pou = this.getLastPOU(project);
-
+        if (el.getName().equals("fileHeader")) {
+          project.setTitle(extractProjectName(el));
+        }
         if (el.getName().equals(this.tags.get("datatype"))) {
           project.getDataTypes().add(extractDataType(el));
         }
@@ -200,11 +212,11 @@ public class DOM4JParser implements FBDParser {
         if (this.tags.get("block.types").contains(el.getName())) {
           pou.getBlocks().add(extractBlock(el));
         }
-
         parseXML(el, project);
       }
     }
   }
+
 
   @Override
   public Project extractFBDProject() {

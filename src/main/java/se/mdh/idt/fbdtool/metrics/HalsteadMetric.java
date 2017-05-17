@@ -38,6 +38,7 @@ public class HalsteadMetric implements ComplexityMetric {
     }
 
     if (this.operators.get(el.getType()) != null) {
+
       this.operators.put(el.getType(), this.operators.get(el.getType()) + 1.0);
     } else {
       this.operators.put(el.getType(), 1.0);
@@ -109,7 +110,7 @@ public class HalsteadMetric implements ComplexityMetric {
   }
 
   private void extractConnectionOperands(int[] connection) {
-    String connName = "Connection" + connection[0] + ":" + connection[1];
+    String connName = "Connection " + connection[0] + ":" + connection[1];
     if (this.operands.get(connName) != null) {
       this.operands.put(connName, this.operands.get(connName) + 1.0);
     } else {
@@ -168,6 +169,10 @@ public class HalsteadMetric implements ComplexityMetric {
     double time = effort / 18.0;
     double bugs = Math.pow(effort, 2.0 / 3.0) / 3000.0;
 
+    this.metric.put("UniqueOperators", (double) n1);
+    this.metric.put("UniqueOperands", (double) n2);
+    this.metric.put("TotalOperators", (double) N1);
+    this.metric.put("TotalOperands", (double) N2);
     this.metric.put("ProgramVocabulary", vocabulary);
     this.metric.put("ProgramLength", length);
     this.metric.put("CalculatedProgramLength", calculatedLength);

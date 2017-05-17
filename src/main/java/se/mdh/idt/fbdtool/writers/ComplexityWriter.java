@@ -12,7 +12,7 @@ public interface ComplexityWriter {
 
   boolean write(POU pou, boolean close);
 
-  boolean write(MetricSuite suite, boolean close);
+  boolean write(MetricSuite suite, String type, boolean close);
 
   boolean close();
 }

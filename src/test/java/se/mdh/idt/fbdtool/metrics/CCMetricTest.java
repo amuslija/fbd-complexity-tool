@@ -35,7 +35,7 @@ public class CCMetricTest {
     int[] weights = {1};
     metric.addNewKeywords(keywords, weights);
     HashMap<String, Double> results = metric.measureProjectComplexity(project);
-    assertThat(results.get("CyclomaticNumber"), is(5.0));
+    assertThat(results.get("CyclomaticNumber"), is(10.0));
   }
 
   @Test
